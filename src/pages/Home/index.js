@@ -8,14 +8,14 @@ function Home() {
     return (
         <div>
         
-
+{/* 
             <div className={cx('gallery js-flickity')} data-flickity-options='{ "wrapAround": true }'>
                 <div className={cx('gallery-cell')}></div>
                 <div className={cx('gallery-cell')}></div>
                 <div className={cx('gallery-cell')}></div>
                 <div className={cx('gallery-cell')}></div>
                 <div className={cx('gallery-cell')}></div>
-            </div>
+            </div> */}
         </div>
     );
 }
