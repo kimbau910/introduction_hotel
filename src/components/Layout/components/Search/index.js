@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './search.module.scss';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { Wrapper as PoperWraper } from '~/components/Poper';
+import axios from 'axios';
 import AccountItem from '~/components/AccountItem';
 import 'tippy.js/dist/tippy.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,31 +12,34 @@ const cx = classNames.bind(styles);
 function Search() {
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
-    const [showResult, setShowResult] = useState(true)
+    const [showResult, setShowResult] = useState(true);
 
     const inputRef = useRef();
     useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([1, 2, 3]);
-        }, 0);
-    }, []);
+        if (!searchValue.trim()) {
+            return;
+        }
+        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
+            .then((res) => res.json())
+            .then((res) => {
+                setSearchResult(res.data);
+            });
+    }, [searchValue]);
 
-    const handleHideResult = () =>{
+    const handleHideResult = () => {
         setShowResult(false);
-    }
+    };
     return (
         <HeadlessTippy
             interactive
-            visible={showResult &&searchResult.length > 0}
+            visible={showResult && searchResult.length > 0}
             render={(attrs) => (
                 <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                     <PoperWraper>
                         <h4 className={cx('search-title')}>Account</h4>
-
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
+                        {searchResult.map((result) => (
+                            <AccountItem key={result.id} data={result} />
+                        ))}
                     </PoperWraper>
                 </div>
             )}
@@ -48,7 +52,7 @@ function Search() {
                     placeholder="Tìm kiếm khách sạn"
                     spellCheck={false}
                     onChange={(e) => setSearchValue(e.target.value)}
-                    onFocus={() =>setShowResult(true)}
+                    onFocus={() => setShowResult(true)}
                 />
                 {!!searchValue && (
                     <button
@@ -56,7 +60,7 @@ function Search() {
                         onClick={() => {
                             setSearchValue('');
                             inputRef.current.focus();
-                            setSearchResult([])
+                            setSearchResult([]);
                         }}
                     >
                         <FontAwesomeIcon icon={faCircleXmark} />

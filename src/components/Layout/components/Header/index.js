@@ -9,10 +9,12 @@ import { Wrapper as PoperWraper } from '~/components/Poper';
 import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Poper/Menu';
 import 'tippy.js/dist/tippy.css';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEarthAsia, faCircleQuestion, faUser, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { type } from '@testing-library/user-event/dist/type';
 import Search from '../Search';
+import Login from '~/pages/Login';
 
 const cx = classNames.bind(styles);
 const Menu_ITEMS = [
@@ -59,19 +61,20 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <div className={cx('logo')}>
-                    <img src={images.logo} alt="tiktok">
-                    </img>
-                </div>
+                <Link to={'/'} className={cx('logo')}>
+                    <img src={images.logo} alt="tiktok"></img>
+                </Link>
                 <Search />
 
                 <div className={cx('actions')}>
                     {/* <Button leftIcon={<FontAwesomeIcon icon={faCircleQuestion} />}>Trợ giúp</Button>
                     <Button leftIcon={<FontAwesomeIcon icon={faEarthAsia} />}>Tiếng Việt</Button> */}
-
-                    <Button primary leftIcon={<FontAwesomeIcon icon={faUser} />}>
-                        Đăng nhập
-                    </Button>
+                    <Link to={'/Login'}>
+                        <Button primary leftIcon={<FontAwesomeIcon icon={faUser} />}>
+                            Đăng nhập 
+                        </Button>
+                       
+                    </Link>
                     <Menu items={Menu_ITEMS}>
                         {/* <Menu items={Menu_ITEMS} onChange={handleMenuChange} /> */}
                         <button className={cx('more-btn')}>

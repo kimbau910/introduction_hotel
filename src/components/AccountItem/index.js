@@ -2,12 +2,13 @@ import classNames from 'classnames/bind';
 import styles from './AccountItem.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function AccountItem() {
+function AccountItem({ data }) {
     return (
-        <div className={cx('wrapper')}>
+        <Link to={`/@${data.nickname}`} className={cx('wrapper')}>
             {/* <img
                 className={cx('avatar')}
                 src="https://gcs.tripi.vn/public-tripi/tripi-feed/img/474014bom/anh-gai-xinh-cute-de-thuong-hot-girl-2.jpg"
@@ -21,20 +22,21 @@ function AccountItem() {
                 <span className={cx('usename')}>nguyenvana</span>
             </div> */}
             <div className={cx('card')}>
-                <div
-                    className={cx('img')}
-                    
-                ><img src="https://gcs.tripi.vn/public-tripi/tripi-feed/img/474014bom/anh-gai-xinh-cute-de-thuong-hot-girl-2.jpg" alt="Hoaa" width="50px" height="50"></img></div>
+                <div className={cx('img')}>
+                    <img src={data.avatar} alt="Hoaa" width="50px" height="50"></img>
+                </div>
                 <div className={cx('textBox')}>
                     <div className={cx('textContent')}>
-                        <p className={cx('h1')}>Clans of Clash</p>
-                        <span className={cx('span')}><a href=''>Chi tiết    </a></span>
+                        <p className={cx('h1')}>{data.full_name}</p>
+                        <span className={cx('span')}>
+                            <a href="">chi tiet </a>
+                        </span>
                     </div>
-                    <p className={cx('p')}>Xhattmahs is not attacking your base!</p>
+                    <p className={cx('p')}>{data.nickname}</p>
                     <div></div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 

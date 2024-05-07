@@ -1,28 +1,100 @@
-* {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-  
-  body { font-family: sans-serif; }
-  
-  .gallery {
-    background: #EEE;
-  }
-  
-  .gallery-cell {
-    width: 66%;
+.card {
+    position: relative;
+    width: 300px;
     height: 200px;
-    margin-right: 10px;
-    background: #8C8;
-    counter-increment: gallery-cell;
-  }
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    perspective: 1000px;
+    box-shadow: 0 0 0 5px #ffffff80;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card svg {
+    width: 48px;
+    fill: #333;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+.card__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f2f2f2;
+    transform: rotateX(-90deg);
+    transform-origin: bottom;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover .card__content {
+    transform: rotateX(0deg);
+}
+
+.card__title {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+    font-weight: 700;
+}
+
+.card:hover svg {
+    scale: 0;
+}
+
+.card__description {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: #777;
+    line-height: 1.4;
+}
+.banner_slider {
+  padding: 10px 0 50px 0;
+    h5,
+    p {
+        color: white;
+    }
+
+    img {
+        height: 500px;
+    }
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+.container {
+    display: flex;
+    overflow: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px;
   
-  /* cell number */
-  .gallery-cell:before {
-    display: block;
-    text-align: center;
-    content: counter(gallery-cell);
-    line-height: 200px;
-    font-size: 80px;
-    color: white;
-  }
+    scroll-padding: 10px;
+    width: auto;
+    height: 254px;
+    background-color: white;
+    border: 2px solid coral;
+}
+
+.container .item {
+    scroll-snap-align: start;
+    flex: 0 0 30%;
+    width: 5px;
+    border-radius: 0.2rem;
+}
+
+h4{
+  padding-bottom: 20px;
+}
