@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/components/Layout';
 import Login from './pages/Login';
+import { ParallaxProvider } from 'react-scroll-parallax';
 function App() {
     return (
+        <ParallaxProvider>
         <Router>
             <div className="App">
                 <Routes>
@@ -33,7 +35,7 @@ function App() {
                     <Route path="/Login" element={<Login />} />
                 </Routes>
             </div>
-        </Router>
+        </Router></ParallaxProvider>
     );
 }
 
