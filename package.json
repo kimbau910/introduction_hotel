@@ -16,6 +16,8 @@
         "axios": "^1.6.8",
         "bootstrap": "^5.3.3",
         "classnames": "^2.5.1",
+        "express": "^4.19.2",
+        "express-handlebars": "^7.1.2",
         "normalize.css": "^8.0.1",
         "react": "^18.2.0",
         "react-bootstrap": "^2.10.2",

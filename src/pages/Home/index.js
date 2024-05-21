@@ -1,15 +1,18 @@
+import React, { useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import images from '~/assets/image';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useEffect } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import { ParallaxBanner, ParallaxBannerLayer, Parallax } from 'react-scroll-parallax';
+import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMap, faSnowflake, faStar, faBed } from '@fortawesome/free-solid-svg-icons';
 import Accordion from '~/components/Layout/components/Accordion';
-import Aos from 'aos';
-import 'aos/dist/aos.css';
+import Scenic_spots from '~/components/Layout/components/Scenic_spots';
+import TravelExp from '~/components/Layout/components/TravelExp';
+
 const cards = [
     {
         id: 1,
@@ -57,10 +60,6 @@ const cards = [
         src: images.card5,
     },
 ];
-
-const windowWidth = window.innerWidth;
-const initialTranslateX = windowWidth / 2 - 250;
-const finalTranslateX = windowWidth / 2 - 1000;
 
 const cx = classNames.bind(styles);
 function Home() {
@@ -139,20 +138,9 @@ function Home() {
                     ))}
                 </div>
             </div>
-           
-            <div>
-                <h1>Khách sạn gần thắng cảnh</h1>
-                <div className={cx('box')}>
-                    <span className={cx('boxo')} data-aos="fade-right">1</span>
-                    <span className={cx('boxo')} data-aos="fade-left">2</span>
-                </div>
-
-                <div className={cx('box')}>
-                    <div className={cx('boxo')} data-aos="fade-right">3</div>
-                    <div className={cx('boxo')} data-aos="fade-left">4</div>
-                </div>
-            </div> 
+            <Scenic_spots />
             <Accordion />
+            <TravelExp /> 
         </div>
     );
 }
