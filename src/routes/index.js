@@ -1,8 +1,9 @@
 // Layout
-import { HeaderOnly } from '~/components/Layout';
+// import { HeaderOnly } from '~/components/Layout';
 import Home from '~/pages/Home';
 import Following from '~/pages/Following';
-import Login from '~/pages/Login';
+// import Login from '~/pages/Login';
+import ProductDetail from '~/pages/ProductDetail';
 // const express = require('express');
 // const app = express();
 // const port = 3000;
@@ -17,7 +18,7 @@ import Login from '~/pages/Login';
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/:nickname', component: Following },
-    // { path: '/Login', component: Login },
+    { path: '/detail', component: ProductDetail },
 ];
 
 const privateRoutes = [];
