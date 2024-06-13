@@ -16,5 +16,6 @@ const images = {
     tc4: require('~/assets/image/tc/tc4.jpg'),
     tc5: require('~/assets/image/tc/tc5.jpg'),
     tc6: require('~/assets/image/tc/tc6.jpg'),
+    login1:require('~/assets/image/a3.jpg'),
 };
 export default images;

@@ -193,7 +193,7 @@ function ProductDetail() {
         <div>
             <h1>The Oriental Jade Hotel</h1>
             <h5>Số 8 Đường Đỗ Đức Dục, Phường Mễ Trì, Quận Nam Từ Liêm Hà Nội, Việt Nam +84 243 8335 588</h5>
-
+            
             <div className={cx('slideBar')}></div>
 
             {datas.map((item, i) => (
