@@ -1,22 +1,22 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/components/Layout';
 import Login from './pages/Login';
 import { ParallaxProvider } from 'react-scroll-parallax';
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
+// import axios from 'axios';
+// import { useQuery } from '@tanstack/react-query';
 
 function App() {
     // useEffect(() => {
     //     fetchApi();
     // }, []);
-    const fetchApi = async () => {
-        const res = await axios.get(`http://localhost:3000/api/Detail/get_all`);
-        return res.data;
-    };
-    const query = useQuery({ queryKey: ['todos'], queryFn: fetchApi })
-    console.log('query',query)
+    // const fetchApi = async () => {
+    //     const res = await axios.get(`http://localhost:3000/api/Detail/get_all`);
+    //     return res.data;
+    // };
+    // const query = useQuery({ queryKey: ['todos'], queryFn: fetchApi })
+    // console.log('query',query)
     return (
         <ParallaxProvider>
             <Router>
