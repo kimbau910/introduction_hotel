@@ -8,14 +8,22 @@ import { useMutationHooks } from '../../hooks/useMutation'; // Corrected import 
 const cx = classNames.bind(styles);
 
 function Login() {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const mutation = useMutationHooks((data) => UserService.loginUser(data));
+    const mutationLogin = useMutationHooks((data) => UserService.loginUser(data));
+    const mutationSignUp = useMutationHooks((data) => UserService.signupUser(data));
 
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('logingloin')
-        mutation.mutate({ email, password });
+        mutationLogin.mutate({ email, password });
+    };
+    const handleSignUp = () => {
+        mutationSignUp.mutate({name, email, password })
+      }
+    const handleOnchangeName = (event) => {
+        setName(event.target.value);
     };
 
     const handleOnchangeEmail = (event) => {
@@ -42,6 +50,7 @@ function Login() {
                     <span className={cx('slider')}></span>
                     <span className={cx('card-side')}></span>
                     <div className={cx('flip-card__inner')}>
+                    
                         <div className={cx('flip-card__front')}>
                             <div className={cx('title')}>
                                 Đăng Nhập
@@ -68,23 +77,26 @@ function Login() {
                                 </button>
                             </form>
                         </div>
+          
                         <div className={cx('flip-card__back')}>
                             <div className={cx('title')}>Đăng kí</div>
                             <form className={cx('flip-card__form')}>
-                                <input className={cx('flip-card__input')} placeholder="Tên Đăng Nhập" type="text" />
+                                <input className={cx('flip-card__input')} placeholder="Tên Đăng Nhập" type="text" value={name} onChange={handleOnchangeName} />
                                 <input
                                     className={cx('flip-card__input')}
                                     name="email"
                                     placeholder="Email"
                                     type="email"
+                                    value={email} onChange={handleOnchangeEmail}
                                 />
                                 <input
                                     className={cx('flip-card__input')}
                                     name="password"
                                     placeholder="Mật Khẩu"
                                     type="password"
+                                    value={password} onChange={handleOnchangePassword}
                                 />
-                                <button className={cx('flip-card__btn')} type="button">
+                                <button className={cx('flip-card__btn')} type="button"  onClick={handleSignUp}>
                                     Xác Nhận!
                                 </button>
                             </form>
