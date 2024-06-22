@@ -4,6 +4,7 @@ import Home from '~/pages/Home';
 import Following from '~/pages/Following';
 // import Login from '~/pages/Login';
 import ProductDetail from '~/pages/ProductDetail';
+
 // const express = require('express');
 // const app = express();
 // const port = 3000;
@@ -19,6 +20,8 @@ const publicRoutes = [
     { path: '/', component: Home },
     { path: '/:nickname', component: Following },
     { path: '/detail', component: ProductDetail },
+   
+
 ];
 
 const privateRoutes = [];

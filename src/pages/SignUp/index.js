@@ -1,38 +1,36 @@
 import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';
-import styles from './login.module.scss';
-import images from '~/assets/image';
+import styles from '../Login/login.module.scss';
+import { useNavigate } from 'react-router-dom';
 import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
 import * as UserService from '../../services/UserService';
 import { useMutationHooks } from '../../hooks/useMutation';
-import { useNavigate } from 'react-router-dom';
 import * as message from '../../components/Message/Message';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../../redux/slides/userSlide';
 const cx = classNames.bind(styles);
-
-function Login() {
+function SignUp() {
     const [isShowPassword, setIsShowPassword] = useState(false);
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const user = useSelector((state) => state.user);
 
-    const mutation = useMutationHooks((data) => UserService.loginUser(data));
-    const { data, isSuccess } = mutation;
+    const navigate = useNavigate();
+    const mutation = useMutationHooks((data) => UserService.signupUser(data));
+    const { data, isSuccess, isError } = mutation;
     useEffect(() => {
         if (isSuccess) {
-            navigate('/');
-            if(data?.id){
-                  handleGetDetailsUser(data?.id);
-            }
-          
-            
+            message.success();
+            handleNavigateLogin();
+        } else if (isError) {
+            message.error();
         }
-    }, [isSuccess]);
+    }, [isSuccess, isError]);
 
-   
+    const handleNavigateLogin = () => {
+        navigate('/Login');
+    };
+    const handleOnchangeName = (e) => {
+        setName(e.target.value);
+    };
     const handleOnchangeEmail = (e) => {
         setEmail(e.target.value);
     };
@@ -40,26 +38,15 @@ function Login() {
     const handleOnchangePassword = (e) => {
         setPassword(e.target.value);
     };
-    const handleNavigateSignUp = () => {
-        navigate('/signUp');
-    };
-    const handleSignIn = (event) => {
+
+    const handleSignUp = (event) => {
         event.preventDefault();
-
-        mutation.mutate({
-            email,
-            password,
-        });
+        mutation.mutate({ name, email, password });
     };
-    const handleGetDetailsUser = async (id) => {
-        const res = await UserService.getDetailsUser(id);
-        dispatch(updateUser({ ...res?.data }));
-    };
-
     return (
         <div className={cx('main')}>
             <form action="" method="POST" className={cx('form')} id="register-form">
-                <h3 className={cx('heading')}>Đăng Nhập</h3>
+                <h3 className={cx('heading')}>Đăng Kí</h3>
                 <div className={cx('spacer')}></div>
                 <div className={cx('form-group')}>
                     <label htmlFor="fullname" className={cx('form-label')}>
@@ -68,9 +55,23 @@ function Login() {
                     <input
                         id="fullname"
                         name="fullname"
-                        rules="required"
                         type="text"
-                        placeholder="Nhập Tài Khoản"
+                        placeholder="VD: KimBau"
+                        className={cx('form-control')}
+                        value={name}
+                        onChange={handleOnchangeName}
+                    />
+                    <span className={cx('form-message')}></span>
+                </div>
+                <div className={cx('form-group')}>
+                    <label htmlFor="email" className={cx('form-label')}>
+                        Email
+                    </label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder="VD: kimbau@gmail.com"
                         className={cx('form-control')}
                         value={email}
                         onChange={handleOnchangeEmail}
@@ -78,13 +79,14 @@ function Login() {
                     <span className={cx('form-message')}></span>
                 </div>
                 <div className={cx('form-group')}>
-                    <label className={cx('form-label')}>Mật khẩu</label>
-
+                    <label htmlFor="password" className={cx('form-label')}>
+                        Mật khẩu
+                    </label>
                     <input
                         id="password"
                         name="password"
+                        placeholder="Nhập mật khẩu"
                         className={cx('form-control')}
-                        placeholder="password"
                         type={isShowPassword ? 'text' : 'password'}
                         value={password}
                         onChange={handleOnchangePassword}
@@ -102,22 +104,21 @@ function Login() {
                     >
                         {isShowPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
                     </span>
-
                     <span className={cx('form-message')}></span>
                 </div>
+
                 <div className={cx('form-group')}>
-                    <div className={cx('box_login')}>
-                        <a onClick={handleNavigateSignUp}>Đăng kí</a>
-                        <div className={cx('space')}></div>
+                    <div className={cx('box')}>
+                        <a onClick={handleNavigateLogin}>Đăng nhập ngay</a>
                     </div>
                 </div>
                 {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
-                <button className={cx('form-submit')} onClick={handleSignIn}>
-                    Đăng nhập
+                <button className={cx('form-submit')} onClick={handleSignUp}>
+                    Đăng ký
                 </button>
             </form>
         </div>
     );
 }
 
-export default Login;
+export default SignUp;

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/components/Layout';
 import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 import { ParallaxProvider } from 'react-scroll-parallax';
 // import axios from 'axios';
 // import { useQuery } from '@tanstack/react-query';
@@ -45,6 +46,7 @@ function App() {
                             );
                         })}
                         <Route path="/Login" element={<Login />} />
+                        <Route path= '/signUp'element={<SignUp />}/>
                     </Routes>
                 </div>
             </Router>
