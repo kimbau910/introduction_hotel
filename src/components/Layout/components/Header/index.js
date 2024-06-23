@@ -73,7 +73,11 @@ function Header() {
                     {/* <Button leftIcon={<FontAwesomeIcon icon={faCircleQuestion} />}>Trợ giúp</Button>
                     <Button leftIcon={<FontAwesomeIcon icon={faEarthAsia} />}>Tiếng Việt</Button> */}
                     {user?.name?(
-                        <div>{user.name}</div>
+                        
+                             <Button primary  leftIcon={<FontAwesomeIcon icon={faUser} />}>
+                             {user.name}
+                        </Button>
+                        
                     ):( <Link to={'/Login'}>
                         <Button primary leftIcon={<FontAwesomeIcon icon={faUser} />}>
                             Đăng nhập 

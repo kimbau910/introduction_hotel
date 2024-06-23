@@ -5,10 +5,12 @@ import images from '~/assets/image';
 import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
 import * as UserService from '../../services/UserService';
 import { useMutationHooks } from '../../hooks/useMutation';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as message from '../../components/Message/Message';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/slides/userSlide';
+import { jwtDecode } from 'jwt-decode';
+
 const cx = classNames.bind(styles);
 
 function Login() {
@@ -17,22 +19,36 @@ function Login() {
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const user = useSelector((state) => state.user);
 
     const mutation = useMutationHooks((data) => UserService.loginUser(data));
     const { data, isSuccess } = mutation;
     useEffect(() => {
         if (isSuccess) {
-            navigate('/');
-            if(data?.id){
-                  handleGetDetailsUser(data?.id);
+            if (location?.state) {
+                navigate(location?.state);
+            } else {
+                navigate('/');
             }
-          
-            
+            localStorage.setItem('access_token', JSON.stringify(data?.access_token));
+            localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token));
+            if (data?.access_token) {
+                const decoded = jwtDecode(data?.access_token);
+                console.log('deco',decoded)
+                if (decoded?.id) {
+                    handleGetDetailsUser(decoded?.id, data?.access_token);
+                }
+            }
         }
     }, [isSuccess]);
 
-   
+    const handleGetDetailsUser = async (id, token) => {
+        const storage = localStorage.getItem('refresh_token')
+        const refreshToken = JSON.parse(storage)
+        const res = await UserService.getDetailsUser(id, token)
+        dispatch(updateUser({ ...res?.data, access_token: token,refreshToken }))
+      }
     const handleOnchangeEmail = (e) => {
         setEmail(e.target.value);
     };
@@ -51,11 +67,7 @@ function Login() {
             password,
         });
     };
-    const handleGetDetailsUser = async (id) => {
-        const res = await UserService.getDetailsUser(id);
-        dispatch(updateUser({ ...res?.data }));
-    };
-
+    
     return (
         <div className={cx('main')}>
             <form action="" method="POST" className={cx('form')} id="register-form">
