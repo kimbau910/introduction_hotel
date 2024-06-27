@@ -19,6 +19,23 @@ export const getDetailsUser = async (id, access_token) => {
 
     return res.data;
 };
+export const deleteUser = async (id, access_token, data) => {
+    const res = await axiosJWT.delete(`http://localhost:3001/api/user/delete-user/${id}`, data, {
+        headers: {
+            token: `Bearer ${access_token}`,    
+        }
+    },)
+    return res.data
+}
+export const getAllUser = async (access_token) => {
+    const res = await axiosJWT.get(`http://localhost:3001/api/user/getAll`, {
+        headers: {
+            token: `Bearer ${access_token}`,
+        }
+    },)
+    return res.data
+}
+
 export const refreshToken = async (refreshToken) => {
     console.log('refreshToken', refreshToken);
     const res = await axios.post(

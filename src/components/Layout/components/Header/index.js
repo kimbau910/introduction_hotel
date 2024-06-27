@@ -17,7 +17,12 @@ import { faEarthAsia, faCircleQuestion, faUser, faEllipsisVertical } from '@fort
 // import { type } from '@testing-library/user-event/dist/type';
 import Search from '../Search';
 // import Login from '~/pages/Login';
-import { WrapperContentPopup} from './style'
+import { WrapperContentPopup, WrapperHeaderAccout, WrapperTextHeaderSmall } from './style'
+import {
+  UserOutlined,
+  CaretDownOutlined,
+  ShoppingCartOutlined
+} from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import * as UserService from '~/services/UserService';
 import { resetUser } from '~/redux/slides/userSlide';
@@ -57,6 +62,7 @@ function Header() {
     const [userName, setUserName] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate();
+    const [userAvatar, setUserAvatar] = useState('')
     const [isOpenPopup, setIsOpenPopup] = useState(false)
     const handleMenuChange = (menuItem) => {
         switch (menuItem.type) {
@@ -65,7 +71,10 @@ function Header() {
             default:
         }
     };
-
+    const handleNavigateLogin = () => {
+      navigate('/sign-in')
+    }
+  
     const handleLogout = async () => {
         
         await UserService.logoutUser()
@@ -74,13 +83,13 @@ function Header() {
 
       useEffect(() => {
         setUserName(user?.name)
-      }, [user?.name])
+        setUserAvatar(user?.avatar)
+      }, [user?.name, user?.avatar])
     
       const content = (
         <div>
           <WrapperContentPopup onClick={() => handleClickNavigate('profile')}>Thông tin người dùng</WrapperContentPopup>
           {user?.isAdmin && (
-    
             <WrapperContentPopup onClick={() => handleClickNavigate('admin')}>Quản lí hệ thống</WrapperContentPopup>
           )}
           <WrapperContentPopup onClick={() => handleClickNavigate()}>Đăng xuất</WrapperContentPopup>
@@ -91,7 +100,7 @@ function Header() {
         if(type === 'profile') {
           navigate('/profile-user')
         }else if(type === 'admin') {
-          navigate('/system/admin')
+          navigate('/admin')
         }else {
           handleLogout()
         }
@@ -105,17 +114,30 @@ function Header() {
                     <img src={images.logo} alt="tiktok"></img>
                 </Link>
                 <Search />
-
+                <WrapperHeaderAccout>
+                   {userAvatar ? (
+                <img src={userAvatar} alt="avatar" style={{
+                  position:'relative',
+                  left:'160px',
+                  height: '40px',
+                  width: '40px',
+                  borderRadius: '50%',
+                  objectFit: 'cover'
+                }} />
+              ) : (
+                <UserOutlined style={{ fontSize: '30px' }} />
+              )}</WrapperHeaderAccout>
                 <div className={cx('actions')}>
-                    {/* <Button leftIcon={<FontAwesomeIcon icon={faCircleQuestion} />}>Trợ giúp</Button>
-                    <Button leftIcon={<FontAwesomeIcon icon={faEarthAsia} />}>Tiếng Việt</Button> */}
-                    {user?.name ?(
+         
+                   
+              
+              {user?.access_token ? (
                         <>
                         <Popover  content={content} trigger="click" open={isOpenPopup}>
-                          <Button primary style={{ cursor: 'pointer',maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }} onClick={() => setIsOpenPopup((prev) => !prev)}>{userName?.length ? userName : user?.email}</Button>
+                          <Button style={{ cursor: 'pointer',maxWidth: 1000, overflow: 'hidden', textOverflow: 'ellipsis' }} onClick={() => setIsOpenPopup((prev) => !prev)}>{userName?.length ? userName : user?.email}</Button>
                         </Popover>
                       </>
-                        
+                       
                     ):( <Link to={'/Login'}>
                         <Button primary leftIcon={<FontAwesomeIcon icon={faUser} />}>
                             Đăng nhập 

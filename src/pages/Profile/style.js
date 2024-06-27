@@ -42,3 +42,23 @@ export const WrapperUploadFile = styled(Upload)`
         display: none
     }
 `
+export const WrapperHeaderAccout = styled.div`
+    display: flex;
+    align-items: center;
+    color: #fff;
+    gap: 10px;
+    max-width: 200px;
+`
+
+export const WrapperTextHeaderSmall = styled.span`
+    font-size: 12px;
+    color: #fff;
+    white-space: nowrap;
+`
+
+export const WrapperContentPopup = styled.p`
+    cursor: pointer;
+    &:hover {
+        color: rgb(26, 148, 255);
+    }
+`
