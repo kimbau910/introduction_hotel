@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-// import productReducer from './slides/productSlide'
+import detailReducer from './slides/detailSlide'
 import userReducer from './slides/userSlide';
 // import orderReducer from './slides/orderSlide'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
@@ -9,11 +9,11 @@ const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    blacklist: ['product', 'user'],
+    blacklist: ['detail', 'user'],
 };
 
 const rootReducer = combineReducers({
-    //   product: productReducer,
+      detail: detailReducer,
     user: userReducer,
     //   order: orderReducer
 });

@@ -1,6 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './Product.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Carousel from 'react-bootstrap/Carousel';
+import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax';
+import images from '~/assets/image';
+import { Col, Image, Rate, Row } from 'antd';
 
 const cx = classNames.bind(styles);
 
@@ -9,10 +13,11 @@ const datas = [
         h1: 'Tổng quan',
         ques1: 'Thông tin về khách sạn',
         ques2: 'Các tiện nghi chính',
-        answer1:
-        [ 'Khách sạn JW Marriott Hà Nội tọa lạc tại Khu Thương mại Trung tâm mới của Hà Nội. Khách sạn của chúng tôi ở Hà Nội nằm gần Sân bay Hà Nội và chỉ cách Trung tâm Hội nghị Quốc gia vài bước chân. Các điểm tham quan đáng chú ý khác như Khu Phố Cổ và Hồ Hoàn Kiếm gần đó.',]
-           
-       , answer2: [
+        answer1: [
+            'Khách sạn JW Marriott Hà Nội tọa lạc tại Khu Thương mại Trung tâm mới của Hà Nội. Khách sạn của chúng tôi ở Hà Nội nằm gần Sân bay Hà Nội và chỉ cách Trung tâm Hội nghị Quốc gia vài bước chân. Các điểm tham quan đáng chú ý khác như Khu Phố Cổ và Hồ Hoàn Kiếm gần đó.',
+        ],
+
+        answer2: [
             'Tổ chức hội nghị chuyên nghiệp',
             'Du lịch gia đình',
             'Trung tâm thể dục thể thao',
@@ -188,14 +193,90 @@ function ProductDetail() {
         }
         setSelected(i);
     };
-
+    const imgs = [
+        { id: 0, value: 'https://wallpaperaccess.com/full/2637581.jpg' },
+        { id: 1, value: 'https://source.unsplash.com/user/c_v_r/1900x800' },
+        { id: 2, value: 'https://source.unsplash.com/user/c_v_r/100x100' },
+    ];
+    const [wordData, setWordData] = useState(imgs[0]);
+    const [val, setVal] = useState(0);
+    const handleClick = (index) => {
+        console.log(index);
+        setVal(index);
+        const wordSlider = imgs[index];
+        setWordData(wordSlider);
+    };
+    const handleNext = () => {
+        let index = val < imgs.length - 1 ? val + 1 : val;
+        setVal(index);
+        const wordSlider = imgs[index];
+        setWordData(wordSlider);
+    };
+    const handlePrevious = () => {
+        let index = val <= imgs.length - 1 && val > 0 ? val - 1 : val;
+        setVal(index);
+        const wordSlider = imgs[index];
+        setWordData(wordSlider);
+    };
     return (
         <div>
             <h1>The Oriental Jade Hotel</h1>
             <h5>Số 8 Đường Đỗ Đức Dục, Phường Mễ Trì, Quận Nam Từ Liêm Hà Nội, Việt Nam +84 243 8335 588</h5>
-            
-            <div className={cx('slideBar')}></div>
 
+            {/* <ParallaxBanner style={{ aspectRatio: '2 / 1' }}>
+                <ParallaxBannerLayer expanded={false} speed={-10} scale={[1, 1.2]} opacity={[0.9, 1]}>
+                    <div className={cx('banner_slider')}>
+                        <Carousel data-bs-theme="dark">
+                            <Carousel.Item>
+                                <img className="d-block w-100" src={images.slider1} alt="First slide" />
+                                <Carousel.Caption>
+                                    <h5>The Oriental Jade Hotel</h5>
+                                    <p>92 - 94 Hang Trong, Hoan Kiem, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img className="d-block w-100" src={images.slider2} alt="Second slide" />
+                                <Carousel.Caption>
+                                    <h5>Hanoi Marvellous Hotel & Spa</h5>
+                                    <p>55 Duong Thanh Street, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img className="d-block w-100" src={images.slider2} alt="Third slide" />
+                                <Carousel.Caption>
+                                    <h5>Classic Street Hotel</h5>
+                                    <p>41 Hang Be Street, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                        </Carousel>
+                    </div>
+                </ParallaxBannerLayer>
+            </ParallaxBanner> */}
+            <div>
+            <div className={cx("main")}>
+                <button className={cx("btns")} onClick={handlePrevious}>
+                    P
+                </button>
+                <img src={wordData.value} height="300" width="500" />
+                <button className={cx("btns")} onClick={handleNext}>
+                    N
+                </button>
+                <div className={cx("flex_row")}>
+                    {imgs.map((data, i) => (
+                        <div className={cx("thumbnail")} key={i}>
+                            <img
+                            className={cx({ 'clicked': wordData.id === i })}
+
+                                src={data.value}
+                                onClick={() => handleClick(i)}
+                                height="70"
+                                width="100"
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+            </div>
             {datas.map((item, i) => (
                 <div key={i} className={cx('item_accor')}>
                     <div className={cx('overview')}>

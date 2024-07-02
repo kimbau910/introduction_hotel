@@ -29,9 +29,13 @@ const AdminDetail = () => {
         description: '',
         rating: '',
         image: '',
+        image1: '',
+        image2: '',
+        image3: '',
+        imageMap: '',
+        overview: '',
+        convenient: '',
         type: '',
-        countInStock: '',
-        newType: '',
         discount: '',
     });
     const [stateDetail, setStateDetail] = useState(inittial());
@@ -40,15 +44,34 @@ const AdminDetail = () => {
     const [form] = Form.useForm();
 
     const mutation = useMutationHooks((data) => {
-        const { name, price, description, rating, image, type, countInStock, discount } = data;
+        const {
+            name,
+            price,
+            description,
+            rating,
+            image,
+            image1,
+            image2,
+            image3,
+            imageMap,
+            overview,
+            convenient,
+            type,
+            discount,
+        } = data;
         const res = DetailService.createDetail({
             name,
             price,
             description,
             rating,
             image,
+            image1,
+            image2,
+            image3,
+            imageMap,
+            overview,
+            convenient,
             type,
-            countInStock,
             discount,
         });
         return res;
@@ -85,8 +108,13 @@ const AdminDetail = () => {
                 description: res?.data?.description,
                 rating: res?.data?.rating,
                 image: res?.data?.image,
+                image1: res?.data?.image1,
+                image2: res?.data?.image2,
+                image3: res?.data?.image3,
+                imageMap: res?.data?.imageMap,
+                overview: res?.data?.overview,
+                convenient: res?.data?.convenient,
                 type: res?.data?.type,
-                countInStock: res?.data?.countInStock,
                 discount: res?.data?.discount,
             });
         }
@@ -346,7 +374,6 @@ const AdminDetail = () => {
             rating: '',
             image: '',
             type: '',
-            countInStock: '',
         });
         form.resetFields();
     };
@@ -383,8 +410,13 @@ const AdminDetail = () => {
             description: '',
             rating: '',
             image: '',
+            image1: '',
+            image2: '',
+            image3: '',
+            imageMap: '',
+            overview: '',
+            convenient: '',
             type: '',
-            countInStock: '',
             discount: '',
         });
         form.resetFields();
@@ -397,8 +429,13 @@ const AdminDetail = () => {
             description: stateDetail.description,
             rating: stateDetail.rating,
             image: stateDetail.image,
-            type: stateDetail.type === 'add_type' ? stateDetail.newType : stateDetail.type,
-            countInStock: stateDetail.countInStock,
+            image1: stateDetail.image1,
+            image2: stateDetail.image2,
+            image3: stateDetail.image3,
+            imageMap: stateDetail.imageMap,
+            overview: stateDetail.overview,
+            convenient: stateDetail.convenient,
+            type: stateDetail.type,
             discount: stateDetail.discount,
         };
         mutation.mutate(params, {
@@ -416,12 +453,13 @@ const AdminDetail = () => {
     };
 
     const handleOnchangeDetails = (e) => {
-        setStateDetailDetails({
-            ...stateDetailDetails,
-            [e.target.name]: e.target.value,
-        });
+        if (e.target.name) {
+            setStateDetailDetails({
+                ...stateDetailDetails,
+                [e.target.name]: e.target.value,
+            });
+        }
     };
-
     const handleOnchangeAvatar = async ({ fileList }) => {
         const file = fileList[0];
         if (!file.url && !file.preview) {
@@ -463,7 +501,7 @@ const AdminDetail = () => {
 
     return (
         <div>
-            <WrapperHeader>Quản lý sản phẩm</WrapperHeader>
+            <WrapperHeader>Quản lý khách sạn</WrapperHeader>
             <div style={{ marginTop: '10px' }}>
                 <Button
                     style={{ height: '150px', width: '150px', borderRadius: '6px', borderStyle: 'dashed' }}
@@ -486,7 +524,7 @@ const AdminDetail = () => {
                     }}
                 />
             </div>
-            <ModalComponent forceRender title="Tạo sản phẩm" open={isModalOpen} onCancel={handleCancel} footer={null}>
+            <ModalComponent forceRender title="Tạo Khách sạn" open={isModalOpen} onCancel={handleCancel} footer={null}>
                 <Form
                     name="basic"
                     labelCol={{ span: 6 }}
@@ -496,18 +534,14 @@ const AdminDetail = () => {
                     form={form}
                 >
                     <Form.Item
-                        label="Name"
+                        label="Tên Khách sạn"
                         name="name"
-                        rules={[{ required: true, message: 'Please input your name!' }]}
+                        rules={[{ required: true, message: 'nhập tên khách sạn!' }]}
                     >
                         <InputComponent value={stateDetail['name']} onChange={handleOnchange} name="name" />
                     </Form.Item>
 
-                    <Form.Item
-                        label="Type"
-                        name="type"
-                        rules={[{ required: true, message: 'Please input your type!' }]}
-                    >
+                    <Form.Item label="Loại" name="type" rules={[{ required: true, message: 'Loại!' }]}>
                         <Select
                             name="type"
                             // defaultValue="lucy"
@@ -517,35 +551,16 @@ const AdminDetail = () => {
                             options={renderOptions(typeDetail?.data?.data)}
                         />
                     </Form.Item>
-                    {stateDetail.type === 'add_type' && (
-                        <Form.Item
-                            label="New type"
-                            name="newType"
-                            rules={[{ required: true, message: 'Please input your type!' }]}
-                        >
-                            <InputComponent value={stateDetail.newType} onChange={handleOnchange} name="newType" />
-                        </Form.Item>
-                    )}
+
                     <Form.Item
-                        label="Count inStock"
-                        name="countInStock"
-                        rules={[{ required: true, message: 'Please input your count inStock!' }]}
-                    >
-                        <InputComponent
-                            value={stateDetail.countInStock}
-                            onChange={handleOnchange}
-                            name="countInStock"
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        label="Price"
+                        label="Giá"
                         name="price"
                         rules={[{ required: true, message: 'Please input your count price!' }]}
                     >
                         <InputComponent value={stateDetail.price} onChange={handleOnchange} name="price" />
                     </Form.Item>
                     <Form.Item
-                        label="Description"
+                        label="Địa chỉ"
                         name="description"
                         rules={[{ required: true, message: 'Please input your count description!' }]}
                     >
@@ -559,14 +574,14 @@ const AdminDetail = () => {
                         <InputComponent value={stateDetail.rating} onChange={handleOnchange} name="rating" />
                     </Form.Item>
                     <Form.Item
-                        label="Discount"
+                        label="Giảm giá"
                         name="discount"
                         rules={[{ required: true, message: 'Please input your discount of Detail!' }]}
                     >
                         <InputComponent value={stateDetail.discount} onChange={handleOnchange} name="discount" />
                     </Form.Item>
                     <Form.Item
-                        label="Image"
+                        label="Ảnh1"
                         name="image"
                         rules={[{ required: true, message: 'Please input your count image!' }]}
                     >
@@ -587,6 +602,108 @@ const AdminDetail = () => {
                             )}
                         </WrapperUploadFile>
                     </Form.Item>
+                    <Form.Item
+                        label="Ảnh2"
+                        name="image1"
+                        rules={[{ required: true, message: 'Please input your count image!' }]}
+                    >
+                        <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetail?.image1 && (
+                                <img
+                                    src={stateDetail?.image1}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item
+                        label="Ảnh3"
+                        name="image2"
+                        rules={[{ required: true, message: 'Please input your count image!' }]}
+                    >
+                        <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetail?.image2 && (
+                                <img
+                                    src={stateDetail?.image2}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item
+                        label="Ảnh4"
+                        name="image3"
+                        rules={[{ required: true, message: 'Please input your count image!' }]}
+                    >
+                        <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetail?.image3 && (
+                                <img
+                                    src={stateDetail?.image3}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item
+                        label="Ảnh Map"
+                        name="imageMap"
+                        rules={[{ required: true, message: 'Please input your count image!' }]}
+                    >
+                        <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetail?.imageMap && (
+                                <img
+                                    src={stateDetail?.imageMap}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item
+                        label="Tổng quan"
+                        name="overview"
+                        rules={[{ required: true, message: 'Please input your count description!' }]}
+                    >
+                        <InputComponent value={stateDetail.overview} onChange={handleOnchange} name="overview" />
+                    </Form.Item>
+                    <Form.Item
+                        label="Tiện nghi"
+                        name="convenient"
+                        rules={[{ required: true, message: 'Please input your count description!' }]}
+                    >
+                        <InputComponent value={stateDetail.convenient} onChange={handleOnchange} name="convenient" />
+                    </Form.Item>
                     <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
                         <Button type="primary" htmlType="submit">
                             Submit
@@ -595,7 +712,7 @@ const AdminDetail = () => {
                 </Form>
             </ModalComponent>
             <DrawerComponent
-                title="Chi tiết sản phẩm"
+                title="Chi tiết Khách sạn"
                 isOpen={isOpenDrawer}
                 onClose={() => setIsOpenDrawer(false)}
                 width="90%"
@@ -608,11 +725,7 @@ const AdminDetail = () => {
                     autoComplete="on"
                     form={form}
                 >
-                    <Form.Item
-                        label="Name"
-                        name="name"
-                        rules={[{ required: true, message: 'Please input your name!' }]}
-                    >
+                    <Form.Item label="Tên" name="name" rules={[{ required: true, message: 'Please input your name!' }]}>
                         <InputComponent
                             value={stateDetailDetails['name']}
                             onChange={handleOnchangeDetails}
@@ -621,7 +734,7 @@ const AdminDetail = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Type"
+                        label="Loại"
                         name="type"
                         rules={[{ required: true, message: 'Please input your type!' }]}
                     >
@@ -631,19 +744,9 @@ const AdminDetail = () => {
                             name="type"
                         />
                     </Form.Item>
+
                     <Form.Item
-                        label="Count inStock"
-                        name="countInStock"
-                        rules={[{ required: true, message: 'Please input your count inStock!' }]}
-                    >
-                        <InputComponent
-                            value={stateDetailDetails.countInStock}
-                            onChange={handleOnchangeDetails}
-                            name="countInStock"
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        label="Price"
+                        label="Giá"
                         name="price"
                         rules={[{ required: true, message: 'Please input your count price!' }]}
                     >
@@ -654,7 +757,7 @@ const AdminDetail = () => {
                         />
                     </Form.Item>
                     <Form.Item
-                        label="Description"
+                        label="Địa chỉ"
                         name="description"
                         rules={[{ required: true, message: 'Please input your count description!' }]}
                     >
@@ -676,7 +779,7 @@ const AdminDetail = () => {
                         />
                     </Form.Item>
                     <Form.Item
-                        label="Discount"
+                        label="Giảm giá"
                         name="discount"
                         rules={[{ required: true, message: 'Please input your discount of Detail!' }]}
                     >
@@ -687,7 +790,7 @@ const AdminDetail = () => {
                         />
                     </Form.Item>
                     <Form.Item
-                        label="Image"
+                        label="Ảnh"
                         name="image"
                         rules={[{ required: true, message: 'Please input your count image!' }]}
                     >
@@ -710,13 +813,13 @@ const AdminDetail = () => {
                     </Form.Item>
                     <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
                         <Button type="primary" htmlType="submit">
-                            Apply
+                            Xác nhận
                         </Button>
                     </Form.Item>
                 </Form>
             </DrawerComponent>
             <ModalComponent
-                title="Xóa sản phẩm"
+                title="Xóa khách sạn"
                 open={isModalOpenDelete}
                 onCancel={handleCancelDelete}
                 onOk={handleDeleteDetail}

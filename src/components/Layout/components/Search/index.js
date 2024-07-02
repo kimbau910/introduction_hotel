@@ -4,40 +4,67 @@ import styles from './search.module.scss';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { Wrapper as PoperWraper } from '~/components/Poper';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import AccountItem from '~/components/AccountItem';
 import 'tippy.js/dist/tippy.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faSpinner, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { searchDetail } from '~/redux/slides/detailSlide';
+import { useDebounce } from '~/hooks/useDebounce';
+import * as DetailService from '~/services/DetailService';
+import { useQuery } from '@tanstack/react-query';
+
 const cx = classNames.bind(styles);
+
 function Search() {
+    const searchProduct = useSelector((state) => state?.detail?.search);
+    const searchDebounce = useDebounce(searchProduct, 500);
+    const [limit, setLimit] = useState(6);
+
+    const dispatch = useDispatch();
     const [searchValue, setSearchValue] = useState('');
-    const [searchResult, setSearchResult] = useState([]);
-    const [showResult, setShowResult] = useState(true);
+    const [showResult, setShowResult] = useState(false);
 
     const inputRef = useRef();
-    useEffect(() => {
-        if (!searchValue.trim()) {
-            return;
-        }
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
-            .then((res) => res.json())
-            .then((res) => {
-                setSearchResult(res.data);
-            });
-    }, [searchValue]);
 
     const handleHideResult = () => {
         setShowResult(false);
     };
+
+    const onSearch = (e) => {
+        setSearchValue(e.target.value);
+        dispatch(searchDetail(e.target.value));
+        if (e.target.value.trim()) {
+            setShowResult(true);
+        } else {
+            setShowResult(false);
+        }
+    };
+
+    const fetchProductAll = async (context) => {
+        const limit = context?.queryKey && context?.queryKey[1];
+        const search = context?.queryKey && context?.queryKey[2];
+        const res = await DetailService.getAlldetail(search, limit);
+        return res;
+    };
+
+    const { data: details, isPreviousData } = useQuery({
+        queryKey: ['details', limit, searchDebounce],
+        queryFn: fetchProductAll,
+        retry: 3,
+        retryDelay: 1000,
+        keepPreviousData: true
+    });
+
     return (
         <HeadlessTippy
             interactive
-            visible={showResult && searchResult.length > 0}
+            visible={showResult && details?.data?.length > 0}
             render={(attrs) => (
                 <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                     <PoperWraper>
-                        <h4 className={cx('search-title')}>Account</h4>
-                        {searchResult.map((result) => (
+                        <h4 className={cx('search-title')}>Khách sạn</h4>
+                        {details?.data?.map((result) => (
                             <AccountItem key={result.id} data={result} />
                         ))}
                     </PoperWraper>
@@ -51,8 +78,12 @@ function Search() {
                     value={searchValue}
                     placeholder="Tìm kiếm khách sạn"
                     spellCheck={false}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    onFocus={() => setShowResult(true)}
+                    onChange={onSearch}
+                    onFocus={() => {
+                        if (searchValue.trim()) {
+                            setShowResult(true);
+                        }
+                    }}
                 />
                 {!!searchValue && (
                     <button
@@ -60,15 +91,12 @@ function Search() {
                         onClick={() => {
                             setSearchValue('');
                             inputRef.current.focus();
-                            setSearchResult([]);
+                            setShowResult(false);
                         }}
                     >
                         <FontAwesomeIcon icon={faCircleXmark} />
                     </button>
                 )}
-
-                {/* <FontAwesomeIcon className={cx('loading')} icon={faSpinner} /> */}
-
                 <button className={cx('search-btn')}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>

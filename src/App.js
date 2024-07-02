@@ -12,6 +12,7 @@ import { jwtDecode } from 'jwt-decode';
 import * as UserService from './services/UserService';
 import { isJsonString } from './utils'
 import ProfilePage from './pages/Profile/ProfilePage';
+import AdminPage from './pages/AdminPage/AdminPage';
 // import axios from 'axios';
 // import { useQuery } from '@tanstack/react-query';
 
@@ -106,6 +107,7 @@ function App() {
                         <Route path="/Login" element={<Login />} />
                         <Route path= '/signUp'element={<SignUp />}/>
                         <Route path= '/profile-user'element={<ProfilePage/>}/>
+                        <Route path= '/admin'element={<AdminPage/>}/>
                     </Routes>
                 </div>
             </Router>

@@ -62,7 +62,9 @@ const cards = [
 ];
 
 const cx = classNames.bind(styles);
+
 function Home() {
+   
     useEffect(() => {
         Aos.init({ duration: 1000 });
     }, []);
@@ -140,7 +142,7 @@ function Home() {
             </div>
             <Scenic_spots />
             <Accordion />
-            <TravelExp /> 
+            <TravelExp />
         </div>
     );
 }

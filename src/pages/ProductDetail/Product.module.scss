@@ -64,10 +64,37 @@
     width: 50%;
     margin-left: 20px;
 }
-ul{
+ul {
     padding: 0;
 }
 li {
     list-style-type: none;
     // font-size: 14px;
 }
+
+.main {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.flex_row {
+    justify-content: center;
+    display: flex;
+    padding-top: 20px;
+}
+
+.thumbnail {
+    padding-left: 20px;
+}
+
+.clicked {
+    border: 5px solid black;
+}
+
+.btns {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    background: grey;
+}
+

@@ -5,10 +5,8 @@ import { UserOutlined, AppstoreOutlined, ShoppingCartOutlined } from '@ant-desig
 import Header from '~/components/Layout/components/Header';
 import AdminUser from '~/components/AdminUser/AdminUser';
 import AdminDetail from '~/components/AdminDetail/AdminDetail';
-
 import * as DetailService from '~/services/DetailService';
 import * as UserService from '~/services/UserService';
-
 import CustomizedContent from './components/CustomizedContent';
 import { useSelector } from 'react-redux';
 import { useQueries } from '@tanstack/react-query';
@@ -19,19 +17,17 @@ const AdminPage = () => {
 
     const items = [
         getItem('Người dùng', 'users', <UserOutlined />),
-        getItem('Sản phẩm', 'details', <AppstoreOutlined />),
+        getItem('Khách sạn', 'details', <AppstoreOutlined />),
     ];
 
     const [keySelected, setKeySelected] = useState('');
     const getAllDetails = async () => {
         const res = await DetailService.getAlldetail();
-        console.log('res1', res);
         return { data: res?.data, key: 'details' };
     };
 
     const getAllUsers = async () => {
         const res = await UserService.getAllUser(user?.access_token);
-        console.log('res', res);
         return { data: res?.data, key: 'users' };
     };
 
@@ -76,6 +72,7 @@ const AdminPage = () => {
     console.log('memoCount', memoCount);
     return (
         <>
+        <Header></Header>
             <div isHiddenSearch isHiddenCart />
             <div style={{ display: 'flex', overflowX: 'hidden' }}>
                 <Menu

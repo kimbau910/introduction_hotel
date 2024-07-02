@@ -8,26 +8,15 @@ const cx = classNames.bind(styles);
 
 function AccountItem({ data }) {
     return (
-        <Link to={`/@${data.nickname}`} className={cx('wrapper')}>
-            {/* <img
-                className={cx('avatar')}
-                src="https://gcs.tripi.vn/public-tripi/tripi-feed/img/474014bom/anh-gai-xinh-cute-de-thuong-hot-girl-2.jpg"
-                alt="Hoaa"
-            />
-            <div className={cx('info')}>
-                <h4 className={cx('name')}>
-                    <span>Nguyen Van A</span>
-                    <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
-                </h4>
-                <span className={cx('usename')}>nguyenvana</span>
-            </div> */}
+        <Link to={`/detail/${data._id}`} className={cx('wrapper')}>
+           
             <div className={cx('card')}>
                 <div className={cx('img')}>
-                    <img src={data.avatar} alt="Hoaa" width="50px" height="50"></img>
+                    <img src={data.image} alt="Hoaa" width="50px" height="50"></img>
                 </div>
                 <div className={cx('textBox')}>
                     <div className={cx('textContent')}>
-                        <p className={cx('h1')}>{data.full_name}</p>
+                        <p className={cx('h1')}>{data.name}</p>
                         <span className={cx('span')}>
                             <a href="">chi tiet </a>
                         </span>
