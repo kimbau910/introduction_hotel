@@ -72,7 +72,7 @@ const AdminPage = () => {
     console.log('memoCount', memoCount);
     return (
         <>
-        <Header></Header>
+      
             <div isHiddenSearch isHiddenCart />
             <div style={{ display: 'flex', overflowX: 'hidden' }}>
                 <Menu

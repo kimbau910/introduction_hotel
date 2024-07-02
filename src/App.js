@@ -107,7 +107,7 @@ function App() {
                         <Route path="/Login" element={<Login />} />
                         <Route path= '/signUp'element={<SignUp />}/>
                         <Route path= '/profile-user'element={<ProfilePage/>}/>
-                        <Route path= '/admin'element={<AdminPage/>}/>
+                    
                     </Routes>
                 </div>
             </Router>

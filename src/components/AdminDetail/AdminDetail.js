@@ -78,7 +78,8 @@ const AdminDetail = () => {
     });
     const mutationUpdate = useMutationHooks((data) => {
         const { id, token, ...rests } = data;
-        const res = DetailService.updateDetail(id, token, { ...rests });
+        console.log('datatt', data);
+        const res = DetailService.updateDetail(id, token, {...rests});
         return res;
     });
 
@@ -92,7 +93,7 @@ const AdminDetail = () => {
         const { token, ...ids } = data;
         const res = DetailService.deleteManyDetail(ids, token);
         return res;
-    });
+    }); 
 
     const getAllDetails = async () => {
         const res = await DetailService.getAlldetail();
@@ -155,18 +156,9 @@ const AdminDetail = () => {
     };
 
     const { data, isSuccess, isError } = mutation;
-    const {
-        data: dataUpdated,
-
-        isSuccess: isSuccessUpdated,
-        isError: isErrorUpdated,
-    } = mutationUpdate;
-    const {
-        data: dataDeleted,
-
-        isSuccess: isSuccessDelected,
-        isError: isErrorDeleted,
-    } = mutationDeleted;
+    const { data: dataUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate;
+    console.log('datas', dataUpdated);
+    const { data: dataDeleted, isSuccess: isSuccessDelected, isError: isErrorDeleted } = mutationDeleted;
     const {
         data: dataDeletedMany,
 
@@ -324,7 +316,7 @@ const AdminDetail = () => {
             },
         },
         {
-            title: 'Type',
+            title: 'Gần',
             dataIndex: 'type',
         },
         {
@@ -373,6 +365,13 @@ const AdminDetail = () => {
             description: '',
             rating: '',
             image: '',
+            image1: '',
+            image2: '',
+            image3: '',
+            imageMap: '',
+            overview: '',
+            convenient: '',
+            discount: '',
             type: '',
         });
         form.resetFields();
@@ -453,26 +452,31 @@ const AdminDetail = () => {
     };
 
     const handleOnchangeDetails = (e) => {
-        if (e.target.name) {
-            setStateDetailDetails({
-                ...stateDetailDetails,
-                [e.target.name]: e.target.value,
-            });
+        if (e && e.target && e.target.name) {
+            const { name, value } = e.target;
+            setStateDetailDetails((prevDetails) => ({
+                ...prevDetails,
+                [name]: value,
+            }));
         }
     };
-    const handleOnchangeAvatar = async ({ fileList }) => {
-        const file = fileList[0];
+
+    const handleOnchangeAvatar = async (e) => {
+        if (e && e.target && e.target.files) {
+        const file = e.target.files[0];
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
         }
         setStateDetail({
             ...stateDetail,
             image: file.preview,
-        });
+        });}
     };
+   
 
-    const handleOnchangeAvatarDetails = async ({ fileList }) => {
-        const file = fileList[0];
+    const handleOnchangeAvatarDetails = async (e) => {
+        if (e && e.target && e.target.files) {
+        const file = e.target.files[0];
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
         }
@@ -480,6 +484,7 @@ const AdminDetail = () => {
             ...stateDetailDetails,
             image: file.preview,
         });
+    }
     };
     const onUpdateDetail = () => {
         mutationUpdate.mutate(
@@ -541,7 +546,7 @@ const AdminDetail = () => {
                         <InputComponent value={stateDetail['name']} onChange={handleOnchange} name="name" />
                     </Form.Item>
 
-                    <Form.Item label="Loại" name="type" rules={[{ required: true, message: 'Loại!' }]}>
+                    <Form.Item label="Gần với" name="type" rules={[{ required: true, message: 'Loại!' }]}>
                         <Select
                             name="type"
                             // defaultValue="lucy"
@@ -605,7 +610,7 @@ const AdminDetail = () => {
                     <Form.Item
                         label="Ảnh2"
                         name="image1"
-                        rules={[{ required: true, message: 'Please input your count image!' }]}
+                        rules={[{ message: 'Please input your count image!' }]}
                     >
                         <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
                             <Button>Select File</Button>
@@ -627,7 +632,7 @@ const AdminDetail = () => {
                     <Form.Item
                         label="Ảnh3"
                         name="image2"
-                        rules={[{ required: true, message: 'Please input your count image!' }]}
+                        rules={[{  message: 'Please input your count image!' }]}
                     >
                         <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
                             <Button>Select File</Button>
@@ -649,7 +654,7 @@ const AdminDetail = () => {
                     <Form.Item
                         label="Ảnh4"
                         name="image3"
-                        rules={[{ required: true, message: 'Please input your count image!' }]}
+                        rules={[{  message: 'Please input your count image!' }]}
                     >
                         <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
                             <Button>Select File</Button>
@@ -671,7 +676,7 @@ const AdminDetail = () => {
                     <Form.Item
                         label="Ảnh Map"
                         name="imageMap"
-                        rules={[{ required: true, message: 'Please input your count image!' }]}
+                        rules={[{  message: 'Please input your count image!' }]}
                     >
                         <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
                             <Button>Select File</Button>
@@ -738,8 +743,9 @@ const AdminDetail = () => {
                         name="type"
                         rules={[{ required: true, message: 'Please input your type!' }]}
                     >
-                        <InputComponent
+                        <Select
                             value={stateDetailDetails['type']}
+                            options={renderOptions(typeDetail?.data?.data)}
                             onChange={handleOnchangeDetails}
                             name="type"
                         />
@@ -790,7 +796,7 @@ const AdminDetail = () => {
                         />
                     </Form.Item>
                     <Form.Item
-                        label="Ảnh"
+                        label="Ảnh1"
                         name="image"
                         rules={[{ required: true, message: 'Please input your count image!' }]}
                     >
@@ -810,6 +816,100 @@ const AdminDetail = () => {
                                 />
                             )}
                         </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item label="Ảnh2" name="image1" rules={[{ message: 'Please input your count image!' }]}>
+                        <WrapperUploadFile onChange={handleOnchangeAvatarDetails} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetailDetails?.image1 && (
+                                <img
+                                    src={stateDetailDetails?.image1}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item label="Ảnh3" name="image2" rules={[{ message: 'Please input your count image!' }]}>
+                        <WrapperUploadFile onChange={handleOnchangeAvatarDetails} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetailDetails?.image2 && (
+                                <img
+                                    src={stateDetailDetails?.image2}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item label="Ảnh" name="image4" rules={[{ message: 'Please input your count image!' }]}>
+                        <WrapperUploadFile onChange={handleOnchangeAvatarDetails} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetailDetails?.image3 && (
+                                <img
+                                    src={stateDetailDetails?.image3}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item label="Ảnh5" name="imageMap" rules={[{ message: 'Please input your count image!' }]}>
+                        <WrapperUploadFile onChange={handleOnchangeAvatarDetails} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetailDetails?.imageMap && (
+                                <img
+                                    src={stateDetailDetails?.imageMap}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item
+                        label="Tổng Quan"
+                        name="overview"
+                        rules={[{ required: true, message: 'Please input your discount of Detail!' }]}
+                    >
+                        <InputComponent
+                            value={stateDetailDetails.overview}
+                            onChange={handleOnchangeDetails}
+                            name="overview"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        label="Tiện Nghi"
+                        name="convenient"
+                        rules={[{ required: true, message: 'Please input your discount of Detail!' }]}
+                    >
+                        <InputComponent
+                            value={stateDetailDetails.convenient}
+                            onChange={handleOnchangeDetails}
+                            name="convenient"
+                        />
                     </Form.Item>
                     <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
                         <Button type="primary" htmlType="submit">

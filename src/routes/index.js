@@ -1,31 +1,17 @@
-// Layout
-// import { HeaderOnly } from '~/components/Layout';
 import Home from '~/pages/Home';
 import Following from '~/pages/Following';
-// import Login from '~/pages/Login';
+import AdminPage from '~/pages/AdminPage/AdminPage';
 import ProductDetail from '~/pages/ProductDetail';
-// import AdminPage from '~/pages/AdminPage/AdminPage';
+import DetailPage from '~/pages/DetailPage/DetailPage';
 
-// const express = require('express');
-// const app = express();
-// const port = 3000;
-
-// app.get('/', (req, res) => {
-//     res.send({ path: '/', component: Home });
-// });
-
-// app.listen(port, () => {
-//     console.log(`Example app listening on port ${port}`);
-// });
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/:nickname', component: Following },
-    { path: '/detail/:id', component: ProductDetail },
-    // { path: '/admin', component: AdminPage },
-   
-
+    { path: '/detail/:id', component: DetailPage },
+    { path:'/admin',component:AdminPage },
 ];
 
+{/* <Route path= '/admin'element={<AdminPage/>}/> */}
 const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };

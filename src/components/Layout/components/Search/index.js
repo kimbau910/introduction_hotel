@@ -13,6 +13,7 @@ import { searchDetail } from '~/redux/slides/detailSlide';
 import { useDebounce } from '~/hooks/useDebounce';
 import * as DetailService from '~/services/DetailService';
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -20,7 +21,8 @@ function Search() {
     const searchProduct = useSelector((state) => state?.detail?.search);
     const searchDebounce = useDebounce(searchProduct, 500);
     const [limit, setLimit] = useState(6);
-
+    const {id} = useParams();
+  
     const dispatch = useDispatch();
     const [searchValue, setSearchValue] = useState('');
     const [showResult, setShowResult] = useState(false);

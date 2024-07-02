@@ -1,7 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import detailReducer from './slides/detailSlide'
+import detailReducer from './slides/detailSlide';
 import userReducer from './slides/userSlide';
-// import orderReducer from './slides/orderSlide'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -13,9 +12,8 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-      detail: detailReducer,
+    detail: detailReducer,
     user: userReducer,
-    //   order: orderReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

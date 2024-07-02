@@ -76,6 +76,7 @@ const AdminUser = () => {
     };
 
     const { data: dataUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate;
+    console.log('ok',dataUpdated)
     const { data: dataDeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted } = mutationDeleted;
     const { data: dataDeletedMany, isSuccess: isSuccessDeletedMany, isError: isErrorDeletedMany } = mutationDeletedMany;
 
@@ -105,7 +106,7 @@ const AdminUser = () => {
         );
     };
 
-    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    const handleSearch = ( confirm) => {
         confirm();
     };
 
