@@ -14,7 +14,7 @@ export const getAlldetail = async (search, limit) => {
 export const getDetailType = async (type, page, limit) => {
     if (type) {
         const res = await axios.get(
-            `http://localhost:3001/api/detail/get-all-type?filter=type&filter=${type}&limit=${limit}&page=${page}`,
+            `http://localhost:3001/api/detail/get_all?filter=type&filter=${type}&limit=${limit}&page=${page}`,
         );
         return res.data;
     }

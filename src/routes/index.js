@@ -3,12 +3,14 @@ import Following from '~/pages/Following';
 import AdminPage from '~/pages/AdminPage/AdminPage';
 import ProductDetail from '~/pages/ProductDetail';
 import DetailPage from '~/pages/DetailPage/DetailPage';
+import TypeDetailPage from '~/pages/TypeDetailPage/TypeDetailPage';
 
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/:nickname', component: Following },
     { path: '/detail/:id', component: DetailPage },
     { path:'/admin',component:AdminPage },
+    { path:'/detailType/:type',component:TypeDetailPage},
 ];
 
 {/* <Route path= '/admin'element={<AdminPage/>}/> */}

@@ -1,0 +1,23 @@
+.container {
+    position: relative;
+    right: 0;
+    display: flex;
+    overflow: auto;
+    padding: 10px;
+    width: auto;
+    height: auto;
+   
+    background-color: white;
+   
+    box-shadow: 5px 5px 10px rgba(212, 209, 209, 0.5);
+}
+
+
+.card {
+    max-width: 300px;
+    border-radius: 0.5rem;
+    margin: 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: 1px solid #6b7280;
+}

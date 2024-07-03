@@ -75,8 +75,8 @@ function ProductDetail({ idDetail }) {
     };
     const imgs = [
         { id: 0, value: detailDetails?.image },
-        { id: 1, value: detailDetails?.image },
-        { id: 2, value: detailDetails?.image },
+        { id: 1, value: detailDetails?.image1 },
+        { id: 2, value: detailDetails?.image2 },
     ];
 
     const [wordData, setWordData] = useState(imgs[0]);

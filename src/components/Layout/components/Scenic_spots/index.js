@@ -1,35 +1,46 @@
 import classNames from 'classnames/bind';
 import styles from './scenic_spots.module.scss';
 import images from '~/assets/image';
+import { useNavigate } from 'react-router-dom';
 
 const data = [
     {
         image: images.tc1,
-        name: 'Phố cổ',
+        name1: 'Phố cổ',
     },
     {
         image: images.tc2,
-        name: 'Lăng Chủ Tịch Hồ Chí Minh',
+        name2: 'Lăng Chủ Tịch Hồ Chí Minh',
     },
     {
         image: images.tc3,
-        name: 'Hồ Hoàn Kiếm',
+        name3: 'Hồ Hoàn Kiếm',
     },
     {
         image: images.tc4,
-        name: 'Nhà Thờ Lớn',
+        name4: 'Nhà Thờ Lớn',
     },
     {
         image: images.tc5,
-        name: 'Hỏa Lò',
+        name5: 'Hỏa Lò',
     },
     {
         image: images.tc6,
-        name: 'Văn Miếu Quốc Tử Giám',
+        name6: 'Văn Miếu Quốc Tử Giám',
     },
 ];
 const cx = classNames.bind(styles);
 function Scenic_spots() {
+    const navigate = useNavigate();
+    const handleNavigatetype = (type) => {
+        navigate(
+            `/detailType/${type
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                ?.replace(/ /g, '_')}`,
+            { state: type },
+        );
+    };
     return (
         <div className={cx('scenic')}>
             <h1>Khách sạn gần thắng cảnh</h1>
@@ -41,7 +52,9 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Phố Cổ</h3>
-                            <button className={cx('card-button')}>Tìm Hiểu Thêm</button>
+                            <button className={cx('card-button')} onClick={() => handleNavigatetype('Phố Cổ')}>
+                                Tìm Hiểu Thêm
+                            </button>
                         </div>
                     </div>
                 </span>
@@ -52,7 +65,9 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Lăng Chủ Tịch Hồ Chí Minh</h3>
-                            <button className={cx('card-button')}>Tìm Hiểu Thêm</button>
+                            <button className={cx('card-button')} onClick={() => handleNavigatetype('Lăng Hồ Chủ Tịch')} >
+                                Tìm Hiểu Thêm
+                            </button>
                         </div>
                     </div>
                 </span>
@@ -63,7 +78,7 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Hồ Hoàn Kiếm</h3>
-                            <button className={cx('card-button')}>Tìm Hiểu Thêm</button>
+                            <button className={cx('card-button')}onClick={() => handleNavigatetype('Hồ Hoàn Kiếm')}>Tìm Hiểu Thêm</button>
                         </div>
                     </div>
                 </span>
@@ -77,7 +92,7 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Nhà Thờ Lớn</h3>
-                            <button className={cx('card-button')}>Tìm Hiểu Thêm</button>
+                            <button className={cx('card-button')}onClick={() => handleNavigatetype('Nhà Thờ Lớn')}>Tìm Hiểu Thêm</button>
                         </div>
                     </div>
                 </div>
@@ -88,7 +103,7 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Hỏa Lò</h3>
-                            <button className={cx('card-button')}>Tìm Hiểu Thêm</button>
+                            <button className={cx('card-button')}onClick={() => handleNavigatetype('Hỏa Lò')}>Tìm Hiểu Thêm</button>
                         </div>
                     </div>
                 </span>
@@ -99,7 +114,7 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Văn Miếu Quốc Tử Giám</h3>
-                            <button className={cx('card-button')}>Tìm Hiểu Thêm</button>
+                            <button className={cx('card-button')}onClick={() => handleNavigatetype('Văn Miếu Quốc Tử Giám')}>Tìm Hiểu Thêm</button>
                         </div>
                     </div>
                 </div>

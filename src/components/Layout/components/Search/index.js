@@ -18,8 +18,8 @@ import { useParams } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function Search() {
-    const searchProduct = useSelector((state) => state?.detail?.search);
-    const searchDebounce = useDebounce(searchProduct, 500);
+    const searchDetail = useSelector((state) => state?.detail?.search);
+    const searchDebounce = useDebounce(searchDetail, 500);
     const [limit, setLimit] = useState(6);
     const {id} = useParams();
   

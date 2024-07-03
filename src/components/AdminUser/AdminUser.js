@@ -76,7 +76,7 @@ const AdminUser = () => {
     };
 
     const { data: dataUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate;
-    console.log('ok',dataUpdated)
+    console.log('ok', dataUpdated);
     const { data: dataDeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted } = mutationDeleted;
     const { data: dataDeletedMany, isSuccess: isSuccessDeletedMany, isError: isErrorDeletedMany } = mutationDeletedMany;
 
@@ -106,7 +106,7 @@ const AdminUser = () => {
         );
     };
 
-    const handleSearch = ( confirm) => {
+    const handleSearch = (confirm) => {
         confirm();
     };
 
@@ -180,7 +180,7 @@ const AdminUser = () => {
                 { text: 'True', value: true },
                 { text: 'False', value: false },
             ],
-            render: (isAdmin) => (isAdmin ? 'TRUE' : 'FALSE'),
+           
         },
         {
             title: 'Phone',
@@ -235,7 +235,7 @@ const AdminUser = () => {
         if (isSuccessUpdated && dataUpdated?.status === 'OK') {
             message.success();
             handleCloseDrawer();
-        } else if (isErrorUpdated) {    
+        } else if (isErrorUpdated) {
             message.error();
         }
     }, [isSuccessUpdated, dataUpdated, isErrorUpdated]);
@@ -265,17 +265,15 @@ const AdminUser = () => {
         }
     };
 
-    const handleOnchangeAvatarDetails = async (e) => {
-        if (e && e.target && e.target.files) {
-            const file = e.target.files[0];
-            if (file) {
-                const preview = await getBase64(file);
-                setStateUserDetails((prevDetails) => ({
-                    ...prevDetails,
-                    avatar: preview,
-                }));
-            }
+    const handleOnchangeAvatarDetails = async ({ fileList }) => {
+        const file = fileList[0];
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
         }
+        setStateUserDetails({
+            ...stateUserDetails,
+            avatar: file.preview,
+        });
     };
 
     const onUpdateUser = () => {
@@ -311,20 +309,24 @@ const AdminUser = () => {
                     autoComplete="on"
                     form={form}
                 >
-                     <Form.Item
-              label="Name"
-              name="name"
-              rules={[{ required: true, message: 'Please input your name!' }]}
-            >
-              <InputComponent value={stateUserDetails['name']} onChange={handleOnchangeDetails} name="name" />
-            </Form.Item>
+                    <Form.Item
+                        label="Name"
+                        name="name"
+                        rules={[{ required: true, message: 'Please input your name!' }]}
+                    >
+                        <InputComponent value={stateUserDetails['name']} onChange={handleOnchangeDetails} name="name" />
+                    </Form.Item>
 
                     <Form.Item
                         label="Email"
                         name="email"
                         rules={[{ required: true, message: 'Please input your email!' }]}
                     >
-                        <InputComponent value={stateUserDetails['email']} onChange={handleOnchangeDetails} name="email" />
+                        <InputComponent
+                            value={stateUserDetails['email']}
+                            onChange={handleOnchangeDetails}
+                            name="email"
+                        />
                     </Form.Item>
 
                     <Form.Item
@@ -371,7 +373,7 @@ const AdminUser = () => {
                     </Form.Item>
                     <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
                         <Button type="primary" htmlType="submit">
-                           Xác nhận
+                            Xác nhận
                         </Button>
                     </Form.Item>
                 </Form>
