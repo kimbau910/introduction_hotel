@@ -53,7 +53,7 @@ function ProductDetail({ idDetail }) {
         },
         {
             h1: 'Giá Phòng',
-            content: 'ôkdáokdóakdóakd',
+            content: detailDetails?.price,
         },
     ];
     const [selected, setSelected] = useState(null);
@@ -143,7 +143,7 @@ function ProductDetail({ idDetail }) {
                                         <Row>
                                             {item === datas[1] ? (
                                                 <>
-                                                    {item.content.split(', ').map((item1, index) => {
+                                                    {item.content.split('| ').map((item1, index) => {
                                                         const IconComponent = icons[index % icons.length];
                                                         return (
                                                             <Col key={index} sm={6}>
@@ -159,7 +159,9 @@ function ProductDetail({ idDetail }) {
                                                 </>
                                             ) : (
                                                 <Col>
-                                                    <p>{item.content}</p>
+                                                    {item.content.split('| ').map((item1, index) => (
+                                                    <p key={index}>{item1.trim()}</p>
+                                                ))}
                                                 </Col>
                                             )}
                                         </Row>

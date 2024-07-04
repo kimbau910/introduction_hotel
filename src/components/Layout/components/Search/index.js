@@ -9,7 +9,7 @@ import AccountItem from '~/components/AccountItem';
 import 'tippy.js/dist/tippy.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { searchDetail } from '~/redux/slides/detailSlide';
+import {  searchDetail as searchDetailAction } from '~/redux/slides/detailSlide';
 import { useDebounce } from '~/hooks/useDebounce';
 import * as DetailService from '~/services/DetailService';
 import { useQuery } from '@tanstack/react-query';
@@ -18,11 +18,11 @@ import { useParams } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function Search() {
-    const searchDetail = useSelector((state) => state?.detail?.search);
-    const searchDebounce = useDebounce(searchDetail, 500);
+    const searchTerm = useSelector((state) => state?.detail?.search);
+    const searchDebounce = useDebounce(searchTerm, 500);
     const [limit, setLimit] = useState(6);
-    const {id} = useParams();
-  
+    const { id } = useParams();
+
     const dispatch = useDispatch();
     const [searchValue, setSearchValue] = useState('');
     const [showResult, setShowResult] = useState(false);
@@ -35,7 +35,7 @@ function Search() {
 
     const onSearch = (e) => {
         setSearchValue(e.target.value);
-        dispatch(searchDetail(e.target.value));
+        dispatch(searchDetailAction(e.target.value));
         if (e.target.value.trim()) {
             setShowResult(true);
         } else {
@@ -105,6 +105,6 @@ function Search() {
             </div>
         </HeadlessTippy>
     );
-}
+}   
 
 export default Search;

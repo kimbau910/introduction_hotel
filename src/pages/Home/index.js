@@ -37,6 +37,7 @@ const cards = [
         service: 'Dịch vụ phòng,Phòng gia đình,Giặt ủi...',
         star: 'Khách sạn 3 sao',
         src: images.card2,
+        ids: '6684ad0d43ff31735829869b',
     },
     {
         id: 3,
@@ -46,6 +47,7 @@ const cards = [
         service: 'Đưa đón sân bay,Bữa sáng tuyệt vời,Spa,Quầy lễ tân 24 giờ...',
         star: 'Khách sạn 3 sao',
         src: images.card3,
+        ids: '6683b5a4035fb843bb424269',
     },
     {
         id: 4,
@@ -55,6 +57,7 @@ const cards = [
         service: 'Đưa đón sân bay,Nhà hàng,Spa...',
         star: 'Khách sạn 4 sao',
         src: images.card4,
+        ids: '667e98e7f1d0a1ef391ade7c',
     },
     {
         id: 5,
@@ -64,6 +67,7 @@ const cards = [
         service: 'Nhà hàng,Đưa đón sân bay,Máy pha trà/cà phê trong tất cả các phòng...',
         star: 'Khách sạn 5 sao',
         src: images.card5,
+        ids: '666f02dd46570221fd7ec52b',
     },
 ];
 
