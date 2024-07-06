@@ -6,43 +6,53 @@ import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
 import * as UserService from '../../services/UserService';
 import { useMutationHooks } from '../../hooks/useMutation';
 import * as message from '../../components/Message/Message';
+
 const cx = classNames.bind(styles);
+
 function SignUp() {
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({});
 
     const navigate = useNavigate();
     const mutation = useMutationHooks((data) => UserService.signupUser(data));
     const { data, isSuccess, isError } = mutation;
+
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && data?.status !== 'ERR') {
             message.success();
             handleNavigateLogin();
-        } else if (isError) {
-            message.error();
+        } else if (isError || data?.status === 'ERR') {
+            message.error(data?.message || 'Đã có lỗi xảy ra');
         }
-    }, [isSuccess, isError]);
+    }, [isSuccess, isError, data]);
 
     const handleNavigateLogin = () => {
         navigate('/Login');
     };
-    const handleOnchangeName = (e) => {
-        setName(e.target.value);
-    };
-    const handleOnchangeEmail = (e) => {
-        setEmail(e.target.value);
+
+    const handleOnChange = (setter) => (e) => {
+        setter(e.target.value);
     };
 
-    const handleOnchangePassword = (e) => {
-        setPassword(e.target.value);
+    const validateInputs = () => {
+        const newErrors = {};
+        if (!name) newErrors.name = 'Tên đầy đủ là bắt buộc';
+        if (!email) newErrors.email = 'Email là bắt buộc';
+        if (!password) newErrors.password = 'Mật khẩu là bắt buộc';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSignUp = (event) => {
         event.preventDefault();
-        mutation.mutate({ name, email, password });
+        if (validateInputs()) {
+            mutation.mutate({ name, email, password });
+        }
     };
+
     return (
         <div className={cx('main')}>
             <form action="" method="POST" className={cx('form')} id="register-form">
@@ -58,10 +68,11 @@ function SignUp() {
                         type="text"
                         placeholder="VD: KimBau"
                         className={cx('form-control')}
+                        rules="required"
                         value={name}
-                        onChange={handleOnchangeName}
+                        onChange={handleOnChange(setName)}
                     />
-                    <span className={cx('form-message')}></span>
+                    {errors.name && <span className={cx('form-message', 'error-message')}>{errors.name}</span>}
                 </div>
                 <div className={cx('form-group')}>
                     <label htmlFor="email" className={cx('form-label')}>
@@ -73,10 +84,11 @@ function SignUp() {
                         type="text"
                         placeholder="VD: kimbau@gmail.com"
                         className={cx('form-control')}
+                        rules="required"
                         value={email}
-                        onChange={handleOnchangeEmail}
+                        onChange={handleOnChange(setEmail)}
                     />
-                    <span className={cx('form-message')}></span>
+                    {errors.email && <span className={cx('form-message', 'error-message')}>{errors.email}</span>}
                 </div>
                 <div className={cx('form-group')}>
                     <label htmlFor="password" className={cx('form-label')}>
@@ -88,8 +100,9 @@ function SignUp() {
                         placeholder="Nhập mật khẩu"
                         className={cx('form-control')}
                         type={isShowPassword ? 'text' : 'password'}
+                        rules="required"
                         value={password}
-                        onChange={handleOnchangePassword}
+                        onChange={handleOnChange(setPassword)}
                     />
                     <span
                         onClick={() => setIsShowPassword(!isShowPassword)}
@@ -104,7 +117,7 @@ function SignUp() {
                     >
                         {isShowPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
                     </span>
-                    <span className={cx('form-message')}></span>
+                    {errors.password && <span className={cx('form-message', 'error-message')}>{errors.password}</span>}
                 </div>
 
                 <div className={cx('form-group')}>
