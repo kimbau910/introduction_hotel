@@ -9,7 +9,7 @@ import AccountItem from '~/components/AccountItem';
 import 'tippy.js/dist/tippy.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import {  searchDetail as searchDetailAction } from '~/redux/slides/detailSlide';
+import { searchDetail as searchDetailAction } from '~/redux/slides/detailSlide';
 import { useDebounce } from '~/hooks/useDebounce';
 import * as DetailService from '~/services/DetailService';
 import { useQuery } from '@tanstack/react-query';
@@ -55,7 +55,7 @@ function Search() {
         queryFn: fetchProductAll,
         retry: 3,
         retryDelay: 1000,
-        keepPreviousData: true
+        keepPreviousData: true,
     });
 
     return (
@@ -74,8 +74,10 @@ function Search() {
             )}
             onClickOutside={handleHideResult}
         >
+            <div className={cx('text_search')}>
             <div className={cx('search')}>
                 <input
+                    className={cx('input')}
                     ref={inputRef}
                     value={searchValue}
                     placeholder="Tìm kiếm khách sạn"
@@ -103,8 +105,9 @@ function Search() {
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
             </div>
+            </div>
         </HeadlessTippy>
     );
-}   
+}
 
 export default Search;

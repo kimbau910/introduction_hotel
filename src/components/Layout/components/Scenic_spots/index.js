@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './scenic_spots.module.scss';
 import images from '~/assets/image';
+
 import { useNavigate } from 'react-router-dom';
 
 const data = [

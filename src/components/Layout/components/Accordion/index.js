@@ -33,6 +33,7 @@ function Accordion() {
         setSelected(i);
     };
     return (
+        <div className={cx('container')}>
         <div className={cx('ques')}>
             <div>
                 <h1 className={cx('inline')} data-aos="fade-up">
@@ -56,6 +57,7 @@ function Accordion() {
                     </div>
                 ))}
             </div>
+        </div>
         </div>
     );
 }

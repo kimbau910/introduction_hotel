@@ -117,35 +117,36 @@ function Home() {
 
     return (
         <div>
-            <ParallaxBanner style={{ aspectRatio: '2 / 1' }}>
-                <ParallaxBannerLayer expanded={false} speed={-10} scale={[1, 1.2]} opacity={[0.9, 1]}>
-                    <div className={cx('banner_slider')}>
-                        <Carousel data-bs-theme="dark">
-                            <Carousel.Item>
-                                <img className="d-block w-100" src={images.slider1} alt="First slide" />
-                                <Carousel.Caption>
-                                    <h5>The Oriental Jade Hotel</h5>
-                                    <p>92 - 94 Hang Trong, Hoan Kiem, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img className="d-block w-100" src={images.slider2} alt="Second slide" />
-                                <Carousel.Caption>
-                                    <h5>Hanoi Marvellous Hotel & Spa</h5>
-                                    <p>55 Duong Thanh Street, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img className="d-block w-100" src={images.slider2} alt="Third slide" />
-                                <Carousel.Caption>
-                                    <h5>Classic Street Hotel</h5>
-                                    <p>41 Hang Be Street, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                        </Carousel>
-                    </div>
-                </ParallaxBannerLayer>
-            </ParallaxBanner>
+           <ParallaxBanner style={{ aspectRatio: '2 / 1' }}>
+    <ParallaxBannerLayer expanded={false} speed={-10} scale={[1, 1.2]} opacity={[0.9, 1]}>
+        <div className={cx('banner_slider')}>
+            <Carousel data-bs-theme="dark" style={{ height: 'auto' }}>
+                <Carousel.Item>
+                    <img className="d-block w-100" src={images.slider1} alt="First slide" />
+                    <Carousel.Caption>
+                        <h5>The Oriental Jade Hotel</h5>
+                        <p>92 - 94 Hang Trong, Hoan Kiem, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <img className="d-block w-100" src={images.slider2} alt="Second slide" />
+                    <Carousel.Caption>
+                        <h5>Hanoi Marvellous Hotel & Spa</h5>
+                        <p>55 Duong Thanh Street, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <img className="d-block w-100" src={images.slider2} alt="Third slide" />
+                    <Carousel.Caption>
+                        <h5>Classic Street Hotel</h5>
+                        <p>41 Hang Be Street, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+            </Carousel>
+        </div>
+    </ParallaxBannerLayer>
+</ParallaxBanner>
+
             <div>
                 <h1>Địa điểm nổi bật</h1>
                 <h4>Gợi ý một số khách sạn cho những du khách lần đầu đến Hà Nội</h4>
@@ -189,7 +190,7 @@ function Home() {
                     ))}
                 </div>
             </div>
-            <Scenic_spots />;
+            <Scenic_spots />
             <Accordion />
             <TravelExp />
         </div>

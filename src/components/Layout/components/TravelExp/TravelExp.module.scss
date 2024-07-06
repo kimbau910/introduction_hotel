@@ -1,8 +1,29 @@
-.exp{
-    h2{
+.container {
+    width: 100%;
+}
+
+.exp {
+    h2 {
         margin: 20px 0 10px 0;
     }
-    p{
-        font-size: 13px;
+    p {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 46.1875em) {
+    .exp {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        h2 {
+            margin: 20px 0 10px 0;
+            width: 34%;
+        }
+        p {
+            font-size: 13px;
+            width: 34%;
+        }
     }
 }

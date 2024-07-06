@@ -1,6 +1,13 @@
-.wrapper{
-    --search-height:46px;
-    --search-top_space:9px;
+.main {
+    display: block;
+    position: relative;
+    top: -83px; /* Vị trí ban đầu của .main */
+    transition: top 0.3s ease; /* Hiệu ứng transition khi thay đổi top */
+}
+
+.wrapper {
+    --search-height: 46px;
+    --search-top_space: 9px;
     width: 100%;
     height: var(--default-layout-header-height, 60px);
     box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
@@ -8,7 +15,7 @@
     justify-content: center;
 }
 
-.inner{
+.inner {
     height: 100%;
     padding: 0 var(--default-layout-horizontal-spacer);
     width: var(--default-layout-header-width);
@@ -17,12 +24,7 @@
     justify-content: space-between;
 }
 
-.logo{
-
-}
-
-
-.more-btn{
+.more-btn {
     font-size: 2rem;
     margin-left: 28px;
     background-color: transparent;
@@ -30,7 +32,82 @@
     cursor: pointer;
 }
 
-.menu-items{
-
+.nameUser {
+    cursor: pointer;
+    overflow: hidden;
+    overflow: ellipsis;
+}
+.imguser {
+    position: relative;
+    left: 160px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+.search-btn {
+    display: none;
+    width: 52px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    color: rgba(22, 24, 35, 0.34);
+    &:hover {
+        background-color: rgba(22, 24, 35, 0.03);
+        cursor: pointer;
+    }
+    &:active {
+        background-color: rgba(22, 24, 35, 0.2);
+    }
+}
+
+.search-but {
+    background-color: rgb(111, 117, 117);
+    size: 20px;
+    padding: 20px;
+    margin: 0 0 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@media only screen and (max-width: 46.1875em) {
+    header {
+        flex-direction: column; /* Chuyển sang dạng cột khi màn hình nhỏ hơn */
+        height: auto; /* Cao độ tự động */
+    }
+    .inner {
+        margin-left: 570px;
+        margin-bottom: 10px;
+    }
+
+    .nameUser {
+        display: none; /* Ẩn đi tên người dùng khi màn hình nhỏ hơn 46.1875em */
+    }
+
+    .more-btn {
+        display: none; /* Ẩn đi nút more-btn khi màn hình nhỏ hơn 46.1875em */
+    }
+
+    .search-btn {
+        margin-left: 200px;
+        display: inline;
+    }
+    .imguser {
+        position: unset;
+        left: unset;
+        border-radius: 60%;
+        margin-right: 500px;
+    }
+    .search-but1{
+        display: none;
+    }
+}
+
+.main-search-clicked {
+    // position: relative;
+    top: 0px;
+}

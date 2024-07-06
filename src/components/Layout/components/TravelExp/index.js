@@ -33,12 +33,13 @@ function TravelExp() {
         <div>
             <h1>Kinh nghiệm du lịch Hà Nội</h1>
             {datas.map((data) => (
+                <div className={cx('container')}>
                 <div className={cx('exp')}>
                     <h2>{data.topic}</h2>
                     <p>{data.hin1}</p>
                     <p>{data.hin2}</p>
                     <p>{data.hin3}</p>
-                </div>
+                </div></div>
             ))}
         </div>
     );
