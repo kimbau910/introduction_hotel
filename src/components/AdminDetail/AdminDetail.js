@@ -14,12 +14,12 @@ import { useQuery } from '@tanstack/react-query';
 import DrawerComponent from '../DrawerComponent/DrawerComponent';
 import { useSelector } from 'react-redux';
 import ModalComponent from '../ModalComponent/ModalComponent';
-
+import Loading from '../LoadingComponent/Loading';
 const AdminDetail = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [rowSelected, setRowSelected] = useState('');
     const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-
+    const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
     const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
     const user = useSelector((state) => state?.user);
     const searchInput = useRef(null);
@@ -31,11 +31,11 @@ const AdminDetail = () => {
         image: '',
         image1: '',
         image2: '',
-
         overview: '',
         convenient: '',
         type: '',
         discount: '',
+        countInStock: '',
     });
     const [stateDetail, setStateDetail] = useState(inittial());
     const [stateDetailDetails, setStateDetailDetails] = useState(inittial());
@@ -43,7 +43,20 @@ const AdminDetail = () => {
     const [form] = Form.useForm();
 
     const mutation = useMutationHooks((data) => {
-        const { name, price, description, rating, image, image1, image2, overview, convenient, type, discount } = data;
+        const {
+            name,
+            price,
+            description,
+            rating,
+            image,
+            image1,
+            image2,
+            overview,
+            convenient,
+            type,
+            discount,
+            countInStock,
+        } = data;
         const res = DetailService.createDetail({
             name,
             price,
@@ -56,12 +69,12 @@ const AdminDetail = () => {
             convenient,
             type,
             discount,
+            countInStock,
         });
         return res;
     });
     const mutationUpdate = useMutationHooks((data) => {
         const { id, token, ...rests } = data;
-        console.log('datatt', data);
         const res = DetailService.updateDetail(id, token, { ...rests });
         return res;
     });
@@ -99,8 +112,10 @@ const AdminDetail = () => {
                 convenient: res?.data?.convenient,
                 type: res?.data?.type,
                 discount: res?.data?.discount,
+                countInStock: res?.data?.countInStock,
             });
         }
+        setIsLoadingUpdate(false);
     };
 
     useEffect(() => {
@@ -113,6 +128,7 @@ const AdminDetail = () => {
 
     useEffect(() => {
         if (rowSelected && isOpenDrawer) {
+            setIsLoadingUpdate(true);
             fetchGetDetailsDetail(rowSelected);
         }
     }, [rowSelected, isOpenDrawer]);
@@ -137,20 +153,29 @@ const AdminDetail = () => {
         return res;
     };
 
-    const { data, isSuccess, isError } = mutation;
-    const { data: dataUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate;
-    console.log('datas', dataUpdated);
-    const { data: dataDeleted, isSuccess: isSuccessDelected, isError: isErrorDeleted } = mutationDeleted;
+    const { data, isLoading, isSuccess, isError } = mutation;
+    const {
+        data: dataUpdated,
+        isLoading: isLoadingUpdated,
+        isSuccess: isSuccessUpdated,
+        isError: isErrorUpdated,
+    } = mutationUpdate;
+    const {
+        data: dataDeleted,
+        isLoading: isLoadingDeleted,
+        isSuccess: isSuccessDelected,
+        isError: isErrorDeleted,
+    } = mutationDeleted;
     const {
         data: dataDeletedMany,
-
+        isLoading: isLoadingDeletedMany,
         isSuccess: isSuccessDelectedMany,
         isError: isErrorDeletedMany,
     } = mutationDeletedMany;
 
     const queryDetail = useQuery({ queryKey: ['Details'], queryFn: getAllDetails });
     const typeDetail = useQuery({ queryKey: ['type-Detail'], queryFn: fetchAllTypeDetail });
-    const { data: Details } = queryDetail;
+    const { isLoading: isLoadingDetails, data: Details } = queryDetail;
     const renderAction = () => {
         return (
             <div>
@@ -354,6 +379,7 @@ const AdminDetail = () => {
             convenient: '',
             discount: '',
             type: '',
+            countInStock: '',
         });
         form.resetFields();
     };
@@ -397,6 +423,7 @@ const AdminDetail = () => {
             convenient: '',
             type: '',
             discount: '',
+            countInStock: '',
         });
         form.resetFields();
     };
@@ -409,11 +436,12 @@ const AdminDetail = () => {
             rating: stateDetail.rating,
             image: stateDetail.image,
             image1: stateDetail.image1,
-
+            image2: stateDetail.image2,
             overview: stateDetail.overview,
             convenient: stateDetail.convenient,
-            type: stateDetail.type,
+            type: stateDetail.type === 'add_type' ? stateDetail.newType : stateDetail.type,
             discount: stateDetail.discount,
+            countInStock: stateDetail.countInStock,
         };
         mutation.mutate(params, {
             onSettled: () => {
@@ -537,6 +565,7 @@ const AdminDetail = () => {
                 <TableComponent
                     handleDelteMany={handleDelteManyDetails}
                     columns={columns}
+                    isLoading={isLoadingDetails}
                     data={dataTable}
                     onRow={(record, rowIndex) => {
                         return {
@@ -574,7 +603,26 @@ const AdminDetail = () => {
                             options={renderOptions(typeDetail?.data?.data)}
                         />
                     </Form.Item>
-
+                    {stateDetail.type === 'add_type' && (
+                        <Form.Item
+                            label="Thêm địa điểm"
+                            name="newType"
+                            rules={[{ required: true, message: 'Please input your type!' }]}
+                        >
+                            <InputComponent value={stateDetail.newType} onChange={handleOnchange} name="newType" />
+                        </Form.Item>
+                    )}
+                    <Form.Item
+                        label="Count inStock"
+                        name="countInStock"
+                        rules={[{ required: true, message: 'Please input your count inStock!' }]}
+                    >
+                        <InputComponent
+                            value={stateDetail.countInStock}
+                            onChange={handleOnchange}
+                            name="countInStock"
+                        />
+                    </Form.Item>
                     <Form.Item
                         label="Giá"
                         name="price"
@@ -675,7 +723,13 @@ const AdminDetail = () => {
                         name="overview"
                         rules={[{ required: true, message: 'Please input your count description!' }]}
                     >
-                        <InputComponent value={stateDetail.overview} onChange={handleOnchange} name="overview" />
+                        <InputComponent
+                            value={stateDetail.overview}
+                            onChange={handleOnchange}
+                            name="overview"
+                            isTextArea={true}
+                            autoSize={{ minRows: 3, maxRows: 10 }}
+                        />
                     </Form.Item>
                     <Form.Item
                         label="Tiện nghi"
@@ -838,6 +892,8 @@ const AdminDetail = () => {
                             value={stateDetailDetails.overview}
                             onChange={handleOnchangeDetails}
                             name="overview"
+                            isTextArea={true}
+                            autoSize={{ minRows: 3, maxRows: 10 }}
                         />
                     </Form.Item>
                     <Form.Item
@@ -849,6 +905,8 @@ const AdminDetail = () => {
                             value={stateDetailDetails.convenient}
                             onChange={handleOnchangeDetails}
                             name="convenient"
+                            isTextArea={true}
+                            autoSize={{ minRows: 3, maxRows: 10 }}
                         />
                     </Form.Item>
                     <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
@@ -864,7 +922,9 @@ const AdminDetail = () => {
                 onCancel={handleCancelDelete}
                 onOk={handleDeleteDetail}
             >
-                <div>Bạn có chắc xóa sản phẩm này không?</div>
+                <Loading isLoading={isLoadingDeleted}>
+                    <div>Bạn có chắc xóa sản phẩm này không?</div>
+                </Loading>
             </ModalComponent>
         </div>
     );

@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from './login.module.scss';
 import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
 import * as UserService from '../../services/UserService';
@@ -7,8 +7,9 @@ import { useMutationHooks } from '../../hooks/useMutation';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as message from '../../components/Message/Message';
 import { useDispatch, useSelector } from 'react-redux';
+import Loading from '~/components/LoadingComponent/Loading';
 import { updateUser } from '../../redux/slides/userSlide';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const cx = classNames.bind(styles);
 
@@ -23,7 +24,17 @@ function Login() {
     const user = useSelector((state) => state.user);
 
     const mutation = useMutationHooks((data) => UserService.loginUser(data));
-    const { data, isSuccess, isError } = mutation;
+    const { data, isLoading, isSuccess, isError } = mutation;
+
+    const handleGetDetailsUser = useCallback(
+        async (id, token) => {
+            const storage = localStorage.getItem('refresh_token');
+            const refreshToken = JSON.parse(storage);
+            const res = await UserService.getDetailsUser(id, token);
+            dispatch(updateUser({ ...res?.data, access_token: token, refreshToken }));
+        },
+        [dispatch],
+    );
 
     useEffect(() => {
         if (isSuccess && data?.status !== 'ERR') {
@@ -43,14 +54,7 @@ function Login() {
         } else if (isError || data?.status === 'ERR') {
             message.error(data?.message || 'Đã có lỗi xảy ra');
         }
-    }, [isSuccess, isError, data, location, navigate]);
-
-    const handleGetDetailsUser = async (id, token) => {
-        const storage = localStorage.getItem('refresh_token');
-        const refreshToken = JSON.parse(storage);
-        const res = await UserService.getDetailsUser(id, token);
-        dispatch(updateUser({ ...res?.data, access_token: token, refreshToken }));
-    };
+    }, [isSuccess, isError, data, location, navigate, handleGetDetailsUser]);
 
     const handleOnChangeEmail = (e) => {
         setEmail(e.target.value);
@@ -128,14 +132,27 @@ function Login() {
                 </div>
                 <div className={cx('form-group')}>
                     <div className={cx('box_login')}>
-                        <a onClick={handleNavigateSignUp}>Đăng kí</a>
+                        <button
+                            onClick={handleNavigateSignUp}
+                            style={{
+                                background: 'none',
+                                border: 'none',
+                                padding: 0,
+                                color: 'blue',
+                                textDecoration: 'underline',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            Đăng kí
+                        </button>
+
                         <div className={cx('space')}></div>
                     </div>
                 </div>
                 {data?.status === 'ERR' && <span className={cx('error-message')}>{data?.message}</span>}
                 <button className={cx('form-submit')} onClick={handleSignIn}>
                     Đăng nhập
-                </button>
+                </button>{' '}
             </form>
         </div>
     );

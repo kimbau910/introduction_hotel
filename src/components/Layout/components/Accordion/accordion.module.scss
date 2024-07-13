@@ -1,24 +1,31 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+      
+}
 
 .ques {
     display: flex;
-
-    border-top:3px solid #e7aeae ;
-    border-bottom:3px solid #e7aeae ;
-    padding: 20px 0 20px 0;
+    border-top: 3px solid #e7aeae;
+    border-bottom: 3px solid #e7aeae;
+    padding: 20px 0;
     width: 100%;
-   
-    
-    h1{
+
+    h1 {
         height: 270px;
         margin-right: 20px;
         padding: 8px;
-         background-color: #f0ebe1;
+        background-color: #f0ebe1;
     }
-   
 }
+
 .accordion {
     width: 100%;
 }
+
 .item_accor {
     background-color: #f0ebe1;
     margin-bottom: 5px;
@@ -37,28 +44,26 @@
     color: #8b7f75;
     max-height: 0;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0, 1, 0, 1);
-}
-.content_accor .show {
-    height: auto;
-    max-height: 9999px;
-    transition: all 0.5s cubic-bezier(1, 0, 1, 0);
+    transition: max-height 0.5s ease, padding 0.5s ease;
+    padding: 0 20px; /* Thêm padding vào đây */
 }
 
+.show {
+    padding: 10px 20px;
+    max-height: 1000px; /* Đảm bảo giá trị max-height đủ lớn */
+}
 
 @media only screen and (max-width: 46.1875em) {
-  
-    .container{
+    .container {
         display: flex;
         justify-content: center;
     }
+
     .ques {
         width: 400px;
-         h1{
-        height: 445px;
-       
+
+        h1 {
+            height: 445px;
+        }
     }
-    }
-   
-   
 }

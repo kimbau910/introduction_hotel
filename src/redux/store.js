@@ -3,6 +3,7 @@ import detailReducer from './slides/detailSlide';
 import userReducer from './slides/userSlide';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import orderReducer from './slides/orderSlide';
 
 const persistConfig = {
     key: 'root',
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     detail: detailReducer,
     user: userReducer,
+    order: orderReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

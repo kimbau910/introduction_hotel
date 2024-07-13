@@ -1,7 +1,9 @@
 import classNames from 'classnames/bind';
 import styles from './accordion.module.scss';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+
 const cx = classNames.bind(styles);
+
 const questions = [
     {
         question: 'Giá trung bình của một khách sạn ở Hà Nội là bao nhiêu?',
@@ -24,40 +26,57 @@ const questions = [
         answer: 'La Siesta Premium Hang Be Hotel, The Oriental Jade Hotel và La Siesta Classic Ma May đã nhận được đánh giá tuyệt vời từ khách du lịch tìm kiếm khách sạn lãng mạn tại Hà Nội.',
     },
 ];
+
 function Accordion() {
     const [selected, setSelected] = useState(null);
+    const contentRefs = useRef([]);
+
+    useEffect(() => {
+        if (selected !== null) {
+            const content = contentRefs.current[selected];
+            if (content) {
+                content.style.maxHeight = `${content.scrollHeight + 40}px`; // Cộng thêm padding
+            }
+        }
+    }, [selected]);
+
     const toggle = (i) => {
         if (selected === i) {
-            return setSelected(null);
+            setSelected(null);
+        } else {
+            setSelected(i);
         }
-        setSelected(i);
     };
+
     return (
         <div className={cx('container')}>
-        <div className={cx('ques')}>
-            <div>
-                <h1 className={cx('inline')} data-aos="fade-up">
-                    <p>Câu</p>
-                    <p>hỏi</p>
-                    <p>thường</p>
-                    <p>gặp!</p>
-                </h1>
-            </div>
-
-            <div className={cx('accordion')} data-aos="fade-left">
-                {questions.map((item, i) => (
-                    <div className={cx('item_accor')}>
-                        <div className={cx('title_accor')} onClick={() => toggle(i)}>
-                            <h2>{item.question}</h2>
-                            <span>{selected === i ? '-' : '+'}</span>
+            <div className={cx('ques')}>
+                <div>
+                    <h1 className={cx('inline')} data-aos="fade-up">
+                        <p>Câu</p>
+                        <p>hỏi</p>
+                        <p>thường</p>
+                        <p>gặp!</p>
+                    </h1>
+                </div>
+                <div className={cx('accordion')} data-aos="fade-left">
+                    {questions.map((item, i) => (
+                        <div className={cx('item_accor')} key={i}>
+                            <div className={cx('title_accor')} onClick={() => toggle(i)}>
+                                <h2>{item.question}</h2>
+                                <span>{selected === i ? '-' : '+'}</span>
+                            </div>
+                            <div
+                                ref={(el) => (contentRefs.current[i] = el)}
+                                className={cx('content_accor', { show: selected === i })}
+                                style={{ maxHeight: selected === i ? `${contentRefs.current[i]?.scrollHeight + 40}px` : '0' }}
+                            >
+                                {item.answer}
+                            </div>
                         </div>
-                        <div className={cx({ 'content_accor show': selected === i, content_accor: selected !== i })}>
-                            {item.answer}
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
         </div>
     );
 }

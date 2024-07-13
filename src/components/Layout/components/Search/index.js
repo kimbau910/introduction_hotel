@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from './search.module.scss';
 import HeadlessTippy from '@tippyjs/react/headless';
@@ -14,6 +14,7 @@ import { useDebounce } from '~/hooks/useDebounce';
 import * as DetailService from '~/services/DetailService';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+import Loading from '~/components/LoadingComponent/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -21,6 +22,7 @@ function Search() {
     const searchTerm = useSelector((state) => state?.detail?.search);
     const searchDebounce = useDebounce(searchTerm, 500);
     const [limit, setLimit] = useState(6);
+    const [isLoading, setIsLoading] = useState(false); // State để theo dõi trạng thái loading
     const { id } = useParams();
 
     const dispatch = useDispatch();
@@ -33,13 +35,24 @@ function Search() {
         setShowResult(false);
     };
 
-    const onSearch = (e) => {
+    const onSearch = async (e) => {
         setSearchValue(e.target.value);
         dispatch(searchDetailAction(e.target.value));
         if (e.target.value.trim()) {
             setShowResult(true);
+            setIsLoading(true); // Bắt đầu loading khi bắt đầu tìm kiếm
         } else {
             setShowResult(false);
+            setIsLoading(false); // Ngừng loading khi không có giá trị tìm kiếm
+        }
+
+        try {
+            const res = await DetailService.getAlldetail(searchDebounce, limit);
+            // Xử lý kết quả từ API ở đây
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setIsLoading(false); // Dừng loading khi kết thúc tìm kiếm (có kết quả hoặc lỗi)
         }
     };
 
@@ -75,36 +88,39 @@ function Search() {
             onClickOutside={handleHideResult}
         >
             <div className={cx('text_search')}>
-            <div className={cx('search')}>
-                <input
-                    className={cx('input')}
-                    ref={inputRef}
-                    value={searchValue}
-                    placeholder="Tìm kiếm khách sạn"
-                    spellCheck={false}
-                    onChange={onSearch}
-                    onFocus={() => {
-                        if (searchValue.trim()) {
-                            setShowResult(true);
-                        }
-                    }}
-                />
-                {!!searchValue && (
-                    <button
-                        className={cx('clear')}
-                        onClick={() => {
-                            setSearchValue('');
-                            inputRef.current.focus();
-                            setShowResult(false);
+                <div className={cx('search')}>
+                    <input
+                        className={cx('input')}
+                        ref={inputRef}
+                        value={searchValue}
+                        placeholder="Tìm kiếm khách sạn"
+                        spellCheck={false}
+                        onChange={onSearch}
+                        onFocus={() => {
+                            if (searchValue.trim()) {
+                                setShowResult(true);
+                            }
                         }}
-                    >
-                        <FontAwesomeIcon icon={faCircleXmark} />
+                    />
+                    {!!searchValue && (
+                        <button
+                            className={cx('clear')}
+                            onClick={() => {
+                                setSearchValue('');
+                                inputRef.current.focus();
+                                setShowResult(false);
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faCircleXmark} />
+                        </button>
+                    )}
+                    <button className={cx('search-btn')}>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
-                )}
-                <button className={cx('search-btn')}>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </button>
-            </div>
+                </div>
+                <Loading isLoading={isLoading}>
+                    {/* Component Loading để hiển thị khi isLoading true */}
+                </Loading>
             </div>
         </HeadlessTippy>
     );

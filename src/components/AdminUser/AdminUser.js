@@ -71,12 +71,12 @@ const AdminUser = () => {
         }
     }, [rowSelected, isOpenDrawer]);
 
-    const handleDetailsProduct = () => {
+    const handleDetailsHotel = () => {
         setIsOpenDrawer(true);
     };
 
     const { data: dataUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate;
-    console.log('ok', dataUpdated);
+   
     const { data: dataDeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted } = mutationDeleted;
     const { data: dataDeletedMany, isSuccess: isSuccessDeletedMany, isError: isErrorDeletedMany } = mutationDeletedMany;
 
@@ -100,7 +100,7 @@ const AdminUser = () => {
                 />
                 <EditOutlined
                     style={{ color: 'orange', fontSize: '30px', cursor: 'pointer' }}
-                    onClick={handleDetailsProduct}
+                    onClick={handleDetailsHotel}
                 />
             </div>
         );

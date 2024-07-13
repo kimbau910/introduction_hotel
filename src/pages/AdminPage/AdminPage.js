@@ -11,6 +11,7 @@ import CustomizedContent from './components/CustomizedContent';
 import { useSelector } from 'react-redux';
 import { useQueries } from '@tanstack/react-query';
 import { useMemo } from 'react';
+import Loading from '~/components/LoadingComponent/Loading';
 
 const AdminPage = () => {
     const user = useSelector((state) => state?.user);
@@ -69,7 +70,7 @@ const AdminPage = () => {
     const handleOnCLick = ({ key }) => {
         setKeySelected(key);
     };
-    console.log('memoCount', memoCount);
+  
     return (
         <>
       
@@ -86,11 +87,11 @@ const AdminPage = () => {
                     onClick={handleOnCLick}
                 />
                 <div style={{ flex: 1, padding: '15px 0 15px 15px' }}>
-                   
+                <Loading isLoading={memoCount && Object.keys(memoCount) &&  Object.keys(memoCount).length !== 2}>
                         {!keySelected && (
                             <CustomizedContent data={memoCount} colors={COLORS} setKeySelected={setKeySelected} />
                         )}
-                    
+                      </Loading>
                     {renderPage(keySelected)}
                 </div>
             </div>

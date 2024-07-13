@@ -5,12 +5,12 @@ import Footer from '~/components/Layout/components/Footer';
 
 const cx = classNames.bind(styles);
 
-function DefaultLayout({ children }) {
+function DefaultLayout({ children, slider }) {
     return (
         <div className={cx('wrapper')}>
             <Header />
+            {slider && <div className={cx('slider')}>{slider}</div>}
             <div className={cx('container')}>
-                {/* <Sidebar /> */}
                 <div className={cx('content')}>{children}</div>
             </div>
             <Footer />

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
 import images from '~/assets/image';
-import { Popover } from 'antd';
+import { Badge, Popover } from 'antd';
 import Button from '~/components/Button';
 import Menu from '~/components/Poper/Menu';
 import 'tippy.js/dist/tippy.css';
@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEarthAsia, faCircleQuestion, faUser, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import Search from '../Search';
-import { WrapperContentPopup, WrapperHeaderAccout } from './style';
-import { UserOutlined } from '@ant-design/icons';
+import { WrapperContentPopup, WrapperHeaderAccout, WrapperTextHeaderSmall } from './style';
+import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import * as UserService from '~/services/UserService';
 import { resetUser } from '~/redux/slides/userSlide';
@@ -46,7 +46,7 @@ const Menu_ITEMS = [
     },
 ];
 
-function Header() {
+function Header({ isHiddenCart = false }) {
     const user = useSelector((state) => state.user);
     const [userName, setUserName] = useState('');
     const dispatch = useDispatch();
@@ -54,6 +54,7 @@ function Header() {
     const [userAvatar, setUserAvatar] = useState('');
     const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);
     const [isUserNamePopupOpen, setIsUserNamePopupOpen] = useState(false);
+    const order = useSelector((state) => state.order);
 
     const handleMenuChange = (menuItem) => {
         switch (menuItem.type) {
@@ -104,28 +105,33 @@ function Header() {
 
     const handleSearchIconClick = () => {
         setIsSearchClicked(!isSearchClicked); // Đảo ngược trạng thái khi click vào icon search
-        console.log('ok')
     };
-  
+
     return (
-        <div className={cx('main', { 'main-search-clicked': isSearchClicked })} >
-             <div className={cx('search-but')} >
-                <Search  />
+        <div className={cx('main', { 'main-search-clicked': isSearchClicked })}>
+            <div className={cx('search-but')}>
+                <Search />
             </div>
 
             <header className={cx('wrapper')}>
-             
                 <div className={cx('inner')}>
                     <Link to={'/'} className={cx('logo')}>
                         <img src={images.logo} alt="tiktok"></img>
                     </Link>
-                  <div className={cx('search-but1')}>
-                    <Search />
-                 </div>
-                        <button className={cx('search-btn')} onClick={handleSearchIconClick}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </button>
-                  
+                    <div className={cx('search-but1')}>
+                        <Search />
+                    </div>
+                    <button className={cx('search-btn')} onClick={handleSearchIconClick}>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    </button>
+                    {/* {!isHiddenCart && (
+                            <div onClick={() => navigate('/order')} style={{ cursor: 'pointer', margin:'15px' }}>
+                                <Badge count={order?.orderItems?.length} size="small">
+                                    <ShoppingCartOutlined style={{ fontSize: '30px', color: '#000' }} />
+                                </Badge>
+                                <WrapperTextHeaderSmall>Giỏ hàng</WrapperTextHeaderSmall>
+                            </div>
+                         )}  */}
                     <Popover
                         content={content}
                         trigger="click"
@@ -146,12 +152,7 @@ function Header() {
                                 open={isUserNamePopupOpen}
                                 onOpenChange={(visible) => setIsUserNamePopupOpen(visible)}
                             >
-                                <Button
-                                    className={cx('nameUser')}
-                                   
-                                >
-                                    {userName?.length ? userName : user?.email}
-                                </Button>
+                                <Button className={cx('nameUser')}>{userName?.length ? userName : user?.email}</Button>
                             </Popover>
                         ) : (
                             <Link to={'/Login'}>
@@ -166,6 +167,7 @@ function Header() {
                                 <FontAwesomeIcon icon={faEllipsisVertical} />
                             </button>
                         </Menu>
+                      
                     </div>
                 </div>
             </header>

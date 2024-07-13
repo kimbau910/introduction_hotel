@@ -1,12 +1,12 @@
 import classNames from 'classnames/bind';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from '../Login/login.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
 import * as UserService from '../../services/UserService';
 import { useMutationHooks } from '../../hooks/useMutation';
 import * as message from '../../components/Message/Message';
-
+import Loading from '~/components/LoadingComponent/Loading';
 const cx = classNames.bind(styles);
 
 function SignUp() {
@@ -18,7 +18,11 @@ function SignUp() {
 
     const navigate = useNavigate();
     const mutation = useMutationHooks((data) => UserService.signupUser(data));
-    const { data, isSuccess, isError } = mutation;
+    const { data, isLoading, isSuccess, isError } = mutation;
+    console.log('1', isLoading);
+    const handleNavigateLogin = useCallback(() => {
+        navigate('/Login');
+    });
 
     useEffect(() => {
         if (isSuccess && data?.status !== 'ERR') {
@@ -28,10 +32,6 @@ function SignUp() {
             message.error(data?.message || 'Đã có lỗi xảy ra');
         }
     }, [isSuccess, isError, data]);
-
-    const handleNavigateLogin = () => {
-        navigate('/Login');
-    };
 
     const handleOnChange = (setter) => (e) => {
         setter(e.target.value);
@@ -122,13 +122,15 @@ function SignUp() {
 
                 <div className={cx('form-group')}>
                     <div className={cx('box')}>
-                        <a onClick={handleNavigateLogin}>Đăng nhập ngay</a>
+                        <p onClick={handleNavigateLogin}>Đăng nhập ngay</p>
                     </div>
                 </div>
                 {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
-                <button className={cx('form-submit')} onClick={handleSignUp}>
-                    Đăng ký
-                </button>
+              
+                    <button className={cx('form-submit')} onClick={handleSignUp}>
+                        Đăng ký
+                    </button>
+             
             </form>
         </div>
     );

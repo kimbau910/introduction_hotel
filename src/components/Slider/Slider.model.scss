@@ -1,0 +1,22 @@
+.banner_slider {
+    margin: 0;
+    padding: 0;
+    h5,
+    p {
+        color: white;
+    }
+
+    img {
+        height: auto;
+    }
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-item img {
+    height: 90vh; 
+    object-fit: cover; 
+}

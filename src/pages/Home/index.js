@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useDebounce } from '~/hooks/useDebounce';
 import { useSelector } from 'react-redux';
+
 const cards = [
     {
         id: 1,
@@ -43,7 +44,7 @@ const cards = [
         id: 3,
         name: 'Classic Street Hotel',
         map: ' 41 Hang Be Street, Hoan Kiem, Hanoi, Vietnam',
-        bed: 'Phòng đôi, Phòng 2 giường , Phòng gia đình ',
+        bed: 'Phòng đôi, Phòng 2 giường , ...',
         service: 'Đưa đón sân bay,Bữa sáng tuyệt vời,Spa,Quầy lễ tân 24 giờ...',
         star: 'Khách sạn 3 sao',
         src: images.card3,
@@ -63,7 +64,7 @@ const cards = [
         id: 5,
         name: 'Eliana Premio Hotel Hanoi',
         map: ' 108 Phố Hàng Bông, Hoan Kiem, Hanoi, Vietnam ',
-        bed: 'Phòng đôi, Phòng gia đình,Phòng 2 giường ',
+        bed: 'Phòng đôi, Phòng gia đình...',
         service: 'Nhà hàng,Đưa đón sân bay,Máy pha trà/cà phê trong tất cả các phòng...',
         star: 'Khách sạn 5 sao',
         src: images.card5,
@@ -87,16 +88,16 @@ function Home() {
     const [limit, setLimit] = useState(6);
     const [typeDetails, setTypeDetails] = useState([]);
 
-    const fetchProductAll = async (context) => {
+    const fetchHotelAll = async (context) => {
         const limit = context?.queryKey && context?.queryKey[1];
         const search = context?.queryKey && context?.queryKey[2];
         const res = await DetailService.getAlldetail(search, limit);
 
         return res;
     };
-    const fetchAllTypeProduct = async () => {
+    const fetchAllTypeHotel = async () => {
         const res = await DetailService.getAllTypeDetail();
-        console.log('', res);
+
         // if(res?.status === 'OK') {
         setTypeDetails(res?.data);
         // }
@@ -105,48 +106,18 @@ function Home() {
         queryKey: ['details'],
         limit,
         searchDebounce,
-        queryFn: fetchProductAll,
+        queryFn: fetchHotelAll,
         retry: 3,
         retryDelay: 1000,
         keepPreviousData: true,
     });
 
     useEffect(() => {
-        fetchAllTypeProduct();
+        fetchAllTypeHotel();
     }, []);
 
     return (
         <div>
-           <ParallaxBanner style={{ aspectRatio: '2 / 1' }}>
-    <ParallaxBannerLayer expanded={false} speed={-10} scale={[1, 1.2]} opacity={[0.9, 1]}>
-        <div className={cx('banner_slider')}>
-            <Carousel data-bs-theme="dark" style={{ height: 'auto' }}>
-                <Carousel.Item>
-                    <img className="d-block w-100" src={images.slider1} alt="First slide" />
-                    <Carousel.Caption>
-                        <h5>The Oriental Jade Hotel</h5>
-                        <p>92 - 94 Hang Trong, Hoan Kiem, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img className="d-block w-100" src={images.slider2} alt="Second slide" />
-                    <Carousel.Caption>
-                        <h5>Hanoi Marvellous Hotel & Spa</h5>
-                        <p>55 Duong Thanh Street, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img className="d-block w-100" src={images.slider2} alt="Third slide" />
-                    <Carousel.Caption>
-                        <h5>Classic Street Hotel</h5>
-                        <p>41 Hang Be Street, Quận Hoàn Kiếm, Hà Nội, Việt Nam.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-            </Carousel>
-        </div>
-    </ParallaxBannerLayer>
-</ParallaxBanner>
-
             <div>
                 <h1>Địa điểm nổi bật</h1>
                 <h4>Gợi ý một số khách sạn cho những du khách lần đầu đến Hà Nội</h4>

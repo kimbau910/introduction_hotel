@@ -2,7 +2,9 @@
     display: block;
     position: relative;
     top: -83px; /* Vị trí ban đầu của .main */
+     margin-bottom: -80px;
     transition: top 0.3s ease; /* Hiệu ứng transition khi thay đổi top */
+   
 }
 
 .wrapper {
@@ -102,12 +104,20 @@
         border-radius: 60%;
         margin-right: 500px;
     }
-    .search-but1{
+    .search-but1 {
         display: none;
     }
 }
 
+// @media only screen and (max-width: 1024px) {
+//     .main {
+//         top: -83px; /* Vị trí ban đầu của .main */
+//     }
+// }
+
 .main-search-clicked {
     // position: relative;
-    top: 0px;
+     margin-top: 80px;
+    transition: top 0.5s ease; /* Hiệu ứng transition khi thay đổi top */
+   
 }
