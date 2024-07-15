@@ -31,11 +31,13 @@ const AdminDetail = () => {
         image: '',
         image1: '',
         image2: '',
+        image3: '',
+        imageMap: '',
         overview: '',
         convenient: '',
         type: '',
         discount: '',
-        countInStock: '',
+      
     });
     const [stateDetail, setStateDetail] = useState(inittial());
     const [stateDetailDetails, setStateDetailDetails] = useState(inittial());
@@ -51,11 +53,13 @@ const AdminDetail = () => {
             image,
             image1,
             image2,
+            image3,
+            imageMap,
             overview,
             convenient,
             type,
             discount,
-            countInStock,
+          
         } = data;
         const res = DetailService.createDetail({
             name,
@@ -65,11 +69,13 @@ const AdminDetail = () => {
             image,
             image1,
             image2,
+            image3,
+            imageMap,
             overview,
             convenient,
             type,
             discount,
-            countInStock,
+           
         });
         return res;
     });
@@ -107,12 +113,14 @@ const AdminDetail = () => {
                 image: res?.data?.image,
                 image1: res?.data?.image1,
                 image2: res?.data?.image2,
+                image3: res?.data?.image3,
+                imageMap: res?.data?.imageMap,
 
                 overview: res?.data?.overview,
                 convenient: res?.data?.convenient,
                 type: res?.data?.type,
                 discount: res?.data?.discount,
-                countInStock: res?.data?.countInStock,
+              
             });
         }
         setIsLoadingUpdate(false);
@@ -374,12 +382,14 @@ const AdminDetail = () => {
             image: '',
             image1: '',
             image2: '',
+            image3: '',
+            imageMap: '',
 
             overview: '',
             convenient: '',
             discount: '',
             type: '',
-            countInStock: '',
+            
         });
         form.resetFields();
     };
@@ -418,12 +428,13 @@ const AdminDetail = () => {
             image: '',
             image1: '',
             image2: '',
-
+            image3: '',
+            imageMap: '',
             overview: '',
             convenient: '',
             type: '',
             discount: '',
-            countInStock: '',
+           
         });
         form.resetFields();
     };
@@ -437,11 +448,13 @@ const AdminDetail = () => {
             image: stateDetail.image,
             image1: stateDetail.image1,
             image2: stateDetail.image2,
+            image3: stateDetail.image3,
+            imageMap: stateDetail.imageMap,
             overview: stateDetail.overview,
             convenient: stateDetail.convenient,
             type: stateDetail.type === 'add_type' ? stateDetail.newType : stateDetail.type,
             discount: stateDetail.discount,
-            countInStock: stateDetail.countInStock,
+           
         };
         mutation.mutate(params, {
             onSettled: () => {
@@ -531,6 +544,51 @@ const AdminDetail = () => {
             image2: file.preview,
         });
     };
+    const handleOnchangeAvatar3 = async ({ fileList }) => {
+        const file = fileList[0];
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        setStateDetail({
+            ...stateDetail,
+            image3: file.preview,
+        });
+    };
+
+    const handleOnchangeAvatarDetails3 = async ({ fileList }) => {
+        const file = fileList[0];
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        setStateDetailDetails({
+            ...stateDetailDetails,
+            image3: file.preview,
+        });
+    };
+
+    const handleOnchangeAvatarMap = async ({ fileList }) => {
+        const file = fileList[0];
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        setStateDetail({
+            ...stateDetail,
+            imageMap: file.preview,
+        });
+    };
+
+    const handleOnchangeAvatarDetailsMap = async ({ fileList }) => {
+        const file = fileList[0];
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        setStateDetailDetails({
+            ...stateDetailDetails,
+            imageMap: file.preview,
+        });
+    };
+
+
 
     const onUpdateDetail = () => {
         mutationUpdate.mutate(
@@ -603,7 +661,7 @@ const AdminDetail = () => {
                             options={renderOptions(typeDetail?.data?.data)}
                         />
                     </Form.Item>
-                    {stateDetail.type === 'add_type' && (
+                    {/* {stateDetail.type === 'add_type' && (
                         <Form.Item
                             label="Thêm địa điểm"
                             name="newType"
@@ -612,17 +670,7 @@ const AdminDetail = () => {
                             <InputComponent value={stateDetail.newType} onChange={handleOnchange} name="newType" />
                         </Form.Item>
                     )}
-                    <Form.Item
-                        label="Count inStock"
-                        name="countInStock"
-                        rules={[{ required: true, message: 'Please input your count inStock!' }]}
-                    >
-                        <InputComponent
-                            value={stateDetail.countInStock}
-                            onChange={handleOnchange}
-                            name="countInStock"
-                        />
-                    </Form.Item>
+                    */}
                     <Form.Item
                         label="Giá"
                         name="price"
@@ -717,7 +765,50 @@ const AdminDetail = () => {
                             )}
                         </WrapperUploadFile>
                     </Form.Item>
-
+                    <Form.Item
+                        label="Ảnh4"
+                        name="image3"
+                        rules={[{ required: true, message: 'Please input your count image!' }]}
+                    >
+                        <WrapperUploadFile onChange={handleOnchangeAvatar3} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetail?.image3 && (
+                                <img
+                                    src={stateDetail?.image3}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item
+                        label="Ảnh5"
+                        name="imageMap"
+                        rules={[{ required: true, message: 'Please input your count image!' }]}
+                    >
+                        <WrapperUploadFile onChange={handleOnchangeAvatarMap} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetail?.imageMap && (
+                                <img
+                                    src={stateDetail?.imageMap}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
                     <Form.Item
                         label="Tổng quan"
                         name="overview"
@@ -870,6 +961,42 @@ const AdminDetail = () => {
                             {stateDetailDetails?.image2 && (
                                 <img
                                     src={stateDetailDetails?.image2}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item label="Ảnh4" name="image3" rules={[{ message: 'Please input your count image!' }]}>
+                        <WrapperUploadFile onChange={handleOnchangeAvatarDetails3} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetailDetails?.image3 && (
+                                <img
+                                    src={stateDetailDetails?.image3}
+                                    style={{
+                                        height: '60px',
+                                        width: '60px',
+                                        borderRadius: '50%',
+                                        objectFit: 'cover',
+                                        marginLeft: '10px',
+                                    }}
+                                    alt="avatar"
+                                />
+                            )}
+                        </WrapperUploadFile>
+                    </Form.Item>
+                    <Form.Item label="Ảnh5" name="imageMap" rules={[{ message: 'Please input your count image!' }]}>
+                        <WrapperUploadFile onChange={handleOnchangeAvatarDetailsMap} maxCount={1}>
+                            <Button>Select File</Button>
+                            {stateDetailDetails?.imageMap && (
+                                <img
+                                    src={stateDetailDetails?.imageMap}
                                     style={{
                                         height: '60px',
                                         width: '60px',

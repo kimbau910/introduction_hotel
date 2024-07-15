@@ -1,11 +1,13 @@
-import { Upload } from "antd";
-import styled from "styled-components";
+import { Upload } from 'antd';
+import styled from 'styled-components';
 
 export const WrapperHeader = styled.h1`
+    display: flex;
+    justify-content: center;
     color: #000;
     font-size: 18px;
     margin: 4px 0;
-`
+`;
 export const WrapperContentProfile = styled.div`
     display: flex;
     flex-direction: column;
@@ -15,7 +17,7 @@ export const WrapperContentProfile = styled.div`
     padding: 30px;
     border-radius: 10px;
     gap: 30px;
-`
+`;
 
 export const WrapperLabel = styled.label`
     color: #000;
@@ -24,13 +26,13 @@ export const WrapperLabel = styled.label`
     font-weight: 600;
     width: 60px;
     text-align: left;
-`
+`;
 
 export const WrapperInput = styled.div`
     display: flex;
     align-items: cemter;
     gap: 20px;
-`
+`;
 
 export const WrapperUploadFile = styled(Upload)`
     & .ant-upload.ant-upload-select.ant-upload-select-picture-card {
@@ -39,26 +41,26 @@ export const WrapperUploadFile = styled(Upload)`
         border-radius: 50%;
     }
     & .ant-upload-list-item-info {
-        display: none
+        display: none;
     }
-`
+`;
 export const WrapperHeaderAccout = styled.div`
     display: flex;
     align-items: center;
     color: #fff;
     gap: 10px;
     max-width: 200px;
-`
+`;
 
 export const WrapperTextHeaderSmall = styled.span`
     font-size: 12px;
     color: #fff;
     white-space: nowrap;
-`
+`;
 
 export const WrapperContentPopup = styled.p`
     cursor: pointer;
     &:hover {
         color: rgb(26, 148, 255);
     }
-`
+`;

@@ -14,7 +14,7 @@ import TravelExp from '~/components/Layout/components/TravelExp';
 import * as DetailService from '~/services/DetailService';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useDebounce } from '~/hooks/useDebounce';
 import { useSelector } from 'react-redux';
@@ -76,15 +76,16 @@ const cx = classNames.bind(styles);
 
 function Home() {
     const navigate = useNavigate();
-
-    const handleDetail = () => {
-        navigate('/sign-in');
-    };
+    const location = useLocation();
+    // const handleDetail = () => {
+    //     navigate('/sign-in');
+    // };
     useEffect(() => {
         Aos.init({ duration: 1000 });
     }, []);
     const searchDetail = useSelector((state) => state?.detail?.search);
     const searchDebounce = useDebounce(searchDetail, 500);
+    const user = useSelector((state) => state.user)
     const [limit, setLimit] = useState(6);
     const [typeDetails, setTypeDetails] = useState([]);
 
@@ -115,13 +116,32 @@ function Home() {
     useEffect(() => {
         fetchAllTypeHotel();
     }, []);
+    const handleLg =() =>{
+        if(!user?.id) {
+            navigate('/Login', {state: location?.pathname})
+        }else {
+    
+           
+        }
+    }
 
     return (
         <div>
+              
             <div>
-                <h1>Địa điểm nổi bật</h1>
-                <h4>Gợi ý một số khách sạn cho những du khách lần đầu đến Hà Nội</h4>
+                <div className={cx('h1vsLoad')}>
+                    <h1>Địa điểm nổi bật</h1>
+                    <div className={cx("loading-wave")}>
+                        <div  className={cx("loading-bar")}></div>
+                        <div className={cx("loading-bar")}></div>
+                        <div  className={cx("loading-bar")}></div>
+                        <div className={cx("loading-bar")}></div>
+                    </div>
+                </div>
 
+                <h4>Gợi ý một số khách sạn cho những du khách lần đầu đến Hà Nội</h4>
+              
+    
                 <div className={cx('container')} data-aos="fade-left">
                     {cards.map((cardd) => (
                         <div className={cx('item')}>
@@ -149,17 +169,19 @@ function Home() {
                                         <FontAwesomeIcon icon={faStar} />
                                         <p>{cardd.star}</p>
                                     </div>
+                                  <div onClick={handleLg}>
                                     <Link to={`/detail/${cardd.ids}`}>
                                         <a className={cx('action')}>
                                             Xem chi tiết
                                             <span aria-hidden="true">→</span>
                                         </a>
-                                    </Link>
+                                    </Link></div>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
+
             </div>
             <Scenic_spots />
             <Accordion />

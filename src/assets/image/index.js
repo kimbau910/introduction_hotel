@@ -10,12 +10,14 @@ const images = {
     card4: require('~/assets/image/card/card4.jpg'),
     card5: require('~/assets/image/card/card5.jpg'),
 
+    bglogin: require('~/assets/image/background/bglogin.jpg'),
+
     tc1: require('~/assets/image/tc/tc1.jpg'),
     tc2: require('~/assets/image/tc/tc2.jpg'),
     tc3: require('~/assets/image/tc/tc3.jpg'),
     tc4: require('~/assets/image/tc/tc4.jpg'),
     tc5: require('~/assets/image/tc/tc5.jpg'),
     tc6: require('~/assets/image/tc/tc6.jpg'),
-    login1:require('~/assets/image/a3.jpg'),
+    login1: require('~/assets/image/a3.jpg'),
 };
 export default images;

@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loading from '~/components/LoadingComponent/Loading';
 import { updateUser } from '../../redux/slides/userSlide';
 import { jwtDecode } from 'jwt-decode';
-
+import images from '~/assets/image/background/bglogin.jpg';
+import { Button } from 'antd';
 const cx = classNames.bind(styles);
 
 function Login() {
@@ -82,9 +83,14 @@ function Login() {
             mutation.mutate({ email, password });
         }
     };
+    const divStyle = {
+        backgroundImage: `url(${images})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    };
 
     return (
-        <div className={cx('main')}>
+        <div className={cx('main')} style={divStyle}>
             <form action="" method="POST" className={cx('form')} id="register-form">
                 <h3 className={cx('heading')}>Đăng Nhập</h3>
                 <div className={cx('spacer')}></div>
@@ -148,6 +154,7 @@ function Login() {
 
                         <div className={cx('space')}></div>
                     </div>
+                    {/* <button onClick={() => navigate('/')}>Trang chủ</button> */}
                 </div>
                 {data?.status === 'ERR' && <span className={cx('error-message')}>{data?.message}</span>}
                 <button className={cx('form-submit')} onClick={handleSignIn}>

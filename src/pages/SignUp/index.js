@@ -7,6 +7,7 @@ import * as UserService from '../../services/UserService';
 import { useMutationHooks } from '../../hooks/useMutation';
 import * as message from '../../components/Message/Message';
 import Loading from '~/components/LoadingComponent/Loading';
+import images from '~/assets/image/background/bglogin.jpg';
 const cx = classNames.bind(styles);
 
 function SignUp() {
@@ -52,9 +53,14 @@ function SignUp() {
             mutation.mutate({ name, email, password });
         }
     };
+    const divStyle = {
+        backgroundImage: `url(${images})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    };
 
     return (
-        <div className={cx('main')}>
+        <div className={cx('main')} style={divStyle}>
             <form action="" method="POST" className={cx('form')} id="register-form">
                 <h3 className={cx('heading')}>Đăng Kí</h3>
                 <div className={cx('spacer')}></div>

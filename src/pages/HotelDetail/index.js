@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Hotel.module.scss';
 import { useEffect, useState } from 'react';
+import { Rate } from 'antd';
 // import Carousel from 'react-bootstrap/Carousel';
 // import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax';
 // import images from '~/assets/image';
@@ -15,7 +16,7 @@ import Col from 'react-bootstrap/Col';
 import Loading from '~/components/LoadingComponent/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { addOrderDetail, resetOrder } from '../../redux/slides/orderSlide';
+
 import * as message from '../../components/Message/Message';
 import LikeButtonComponent from '~/components/LikeButtonComponent/LikeButtonComponent';
 import {
@@ -49,9 +50,8 @@ function HotelDetail({ idDetail }) {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const order = useSelector((state) => state.order);
-    console.log('order', order);
-    const [errorLimitOrder, setErrorLimitOrder] = useState(false);
+
+
     const dispatch = useDispatch();
     const { isLoading, data: detailDetails } = useQuery({
         queryKey: ['detail', idDetail],
@@ -98,6 +98,8 @@ function HotelDetail({ idDetail }) {
         { id: 0, value: detailDetails?.image },
         { id: 1, value: detailDetails?.image1 },
         { id: 2, value: detailDetails?.image2 },
+        { id: 3, value: detailDetails?.image3 },
+        { id: 4, value: detailDetails?.imageMap },
     ];
 
     const [wordData, setWordData] = useState(imgs[0]);
@@ -113,27 +115,8 @@ function HotelDetail({ idDetail }) {
         setVal(index);
         setWordData(imgs[index]);
     };
-    useEffect(() => {
-        const orderRedux = order?.orderItems?.find((item) => item.detail === detailDetails?._id);
 
-        if (
-            orderRedux?.amount + numDetail <= orderRedux?.countInstock ||
-            (!orderRedux && detailDetails?.countInStock > 0)
-        ) {
-            setErrorLimitOrder(false);
-        } else if (detailDetails?.countInStock === 0) {
-            setErrorLimitOrder(true);
-        }
-    }, [numDetail]);
-
-    useEffect(() => {
-        if (order.isSucessOrder) {
-            message.success('Đã thêm');
-        }
-        return () => {
-            dispatch(resetOrder());
-        };
-    }, [order.isSucessOrder]);
+  
 
     const handleChangeCount = (type, limited) => {
         if (type === 'increase') {
@@ -151,56 +134,33 @@ function HotelDetail({ idDetail }) {
         setVal(index);
         setWordData(imgs[index]);
     };
-    const handleAddOrderHotel = () => {
-        if (!user?.id) {
-            navigate('/Login', { state: location?.pathname });
-        } else {
-            const orderRedux = order?.orderItems?.find((item) => item.detail === detailDetails?._id);
-            console.log('orderRedux', orderRedux);
-            if (
-                orderRedux?.amount + numDetail <= orderRedux?.countInstock ||
-                (!orderRedux && detailDetails?.countInStock > 0)
-            ) {
-                dispatch(
-                    addOrderDetail({
-                        orderItem: {
-                            name: detailDetails?.name,
-                            amount: numDetail,
-                            image: detailDetails?.image,
-                            price: detailDetails?.price,
-                            detail: detailDetails?._id,
-                            discount: detailDetails?.discount,
-                            countInstock: detailDetails?.countInStock,
-                        },
-                    }),
-                );
-            } else {
-                setErrorLimitOrder(true);
-            }
-        }
-    };
-
+ 
+    
     return (
         <Loading isLoading={isLoading}>
             <div>
-            <LikeButtonComponent
+                {/* <LikeButtonComponent
                     dataHref="https://developers.facebook.com/docs/plugins/"
                     data-width=""
                     data-layout=""
                     data-action=""
                     data-size=""
                     data-share={true}
-                />
+                /> */}
+  <h5 className={cx('rollback')}><span style={{cursor: 'pointer', fontWeight: 'bold'}} onClick={() => {navigate('/')}}>Trang chủ</span> - Chi tiết khách sạn</h5>
                 <h1>{detailDetails?.name}</h1>
 
                 <h5>{detailDetails?.description}</h5>
-
+                <div className={cx('rate')}>
+                    <p>{detailDetails?.rating}</p>
+                    <Rate allowHalf defaultValue={detailDetails?.rating} value={detailDetails?.rating} />
+                </div>
                 <div className={cx('main')}>
                     <div className={cx('slider')}>
                         <button className={cx('btns')} onClick={handlePrevious}>
                             {'<'}
                         </button>
-                        <img src={wordData.value} height="300" width="500" alt="ảnh" />
+                        <img className={cx('img-main')} src={wordData.value} height="100" width="500" alt="ảnh" />
                         <button className={cx('btns')} onClick={handleNext}>
                             {'>'}
                         </button>
@@ -212,7 +172,7 @@ function HotelDetail({ idDetail }) {
                                     className={cx({ clicked: wordData.id === i })}
                                     src={data.value}
                                     onClick={() => handleClick(i)}
-                                    height="70"
+                                    height="50px"
                                     width="100"
                                     alt="ảnh"
                                 />
@@ -220,57 +180,6 @@ function HotelDetail({ idDetail }) {
                         ))}
                     </div>
                 </div>
-                <div>
-                    {/* <ButtonComponent
-                        size={40}
-                        styleButton={{
-                            background: 'rgb(255, 57, 69)',
-                            height: '48px',
-                            width: '220px',
-                            margin: '30px',
-                            border: 'none',
-                            borderRadius: '4px',
-                        }}
-                        onClick={handleAddOrderHotel}
-                        textbutton={'Đặt Phòng Ngay'}
-                        styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
-                    ></ButtonComponent>
-                    <div
-                        style={{
-                            margin: '10px 0 20px',
-                            padding: '10px 0',
-                            borderTop: '1px solid #e5e5e5',
-                            borderBottom: '1px solid #e5e5e5',
-                        }}
-                    >
-                        <div style={{ marginBottom: '10px' }}>Số lượng</div>
-                        <WrapperQualityProduct>
-                            <button
-                                style={{ border: 'none', background: 'transparent', cursor: 'pointer' }}
-                                onClick={() => handleChangeCount('decrease', numDetail === 1)}
-                            >
-                                <MinusOutlined style={{ color: '#000', fontSize: '20px' }} />
-                            </button>
-                            <WrapperInputNumber
-                                onChange={onChange}
-                                defaultValue={1}
-                                max={detailDetails?.countInStock}
-                                min={1}
-                                value={numDetail}
-                                size="small"
-                            />
-                            <button
-                                style={{ border: 'none', background: 'transparent', cursor: 'pointer' }}
-                                onClick={() => handleChangeCount('increase', numDetail === detailDetails?.countInStock)}
-                            >
-                                <PlusOutlined style={{ color: '#000', fontSize: '20px' }} />
-                            </button>
-                        </WrapperQualityProduct>
-                    </div>
-
-                    {/* {errorLimitOrder && <div style={{color: 'red'}}>San pham het hang</div>} */}
-                </div> 
-              
 
                 {datas.map((item, i) => (
                     <div key={i} className={cx('item_accor')}>
@@ -323,7 +232,6 @@ function HotelDetail({ idDetail }) {
                     </div>
                 ))}
             </div>
-           
         </Loading>
     );
 }

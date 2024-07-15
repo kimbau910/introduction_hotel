@@ -25,6 +25,24 @@
 //         padding: 8px;
 //     }
 // }
+.rollback{
+    margin-top: 20px;
+    &:hover {
+        text-decoration: underline;
+        color: blue;
+      }
+
+}
+.img-main {
+    max-height: 500px; /* Chiều cao tối đa của hình ảnh chính */
+    width: 100%; /* Giữ nguyên tỷ lệ khung hình */
+  }
+.rate{
+    display: flex;
+        p{
+            padding-right: 5px;
+        }
+}
 .accordion {
     width: 100%;
 }
@@ -93,8 +111,14 @@ li {
 .thumbnail {
     padding-left: 20px;
 }
+.thumbnail img {
+    cursor: pointer;
+    max-height: 150px; 
+    width:190px; 
+  }
 
 .clicked {
+    cursor: pointer;
     border: 5px solid black;
 }
 

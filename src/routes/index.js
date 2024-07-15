@@ -4,7 +4,6 @@ import AdminPage from '~/pages/AdminPage/AdminPage';
 import HotelDetail from '~/pages/HotelDetail';
 import DetailPage from '~/pages/DetailPage/DetailPage';
 import TypeDetailPage from '~/pages/TypeDetailPage/TypeDetailPage';
-import OrderPage from '~/pages/OrderPage/OrderPage';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -12,7 +11,6 @@ const publicRoutes = [
     { path: '/detail/:id', component: DetailPage },
     { path: '/admin', component: AdminPage },
     { path: '/detailType/:type', component: TypeDetailPage },
-    { path: '/order', component: OrderPage},
 ];
 
 {

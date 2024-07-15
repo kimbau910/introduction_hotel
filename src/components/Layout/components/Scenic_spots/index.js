@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
 import styles from './scenic_spots.module.scss';
 import images from '~/assets/image';
+import {useLocation, useNavigate } from 'react-router-dom';
 
-import { useNavigate } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
 const data = [
     {
         image: images.tc1,
@@ -42,6 +42,18 @@ function Scenic_spots() {
             { state: type },
         );
     };
+    
+    const location = useLocation();
+    const user = useSelector((state) => state.user)
+    const handleLg =() =>{
+        if(!user?.id) {
+            navigate('/Login', {state: location?.pathname})
+        }else {
+    
+           
+        }
+    }
+
     return (
         <div className={cx('scenic')}>
             <h1>Khách sạn gần thắng cảnh</h1>
@@ -53,9 +65,11 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Phố Cổ</h3>
+                            <div onClick={handleLg}>
                             <button className={cx('card-button')} onClick={() => handleNavigatetype('Phố Cổ')}>
                                 Tìm Hiểu Thêm
                             </button>
+                            </div>
                         </div>
                     </div>
                 </span>
@@ -66,9 +80,11 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Lăng Chủ Tịch Hồ Chí Minh</h3>
+                            <div onClick={handleLg}>
                             <button className={cx('card-button')} onClick={() => handleNavigatetype('Lăng Hồ Chủ Tịch')} >
                                 Tìm Hiểu Thêm
                             </button>
+                            </div>
                         </div>
                     </div>
                 </span>
@@ -79,7 +95,9 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Hồ Hoàn Kiếm</h3>
+                            <div onClick={handleLg}>
                             <button className={cx('card-button')}onClick={() => handleNavigatetype('Hồ Hoàn Kiếm')}>Tìm Hiểu Thêm</button>
+                            </div>
                         </div>
                     </div>
                 </span>
@@ -93,7 +111,9 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Nhà Thờ Lớn</h3>
+                            <div onClick={handleLg}>
                             <button className={cx('card-button')}onClick={() => handleNavigatetype('Nhà Thờ Lớn')}>Tìm Hiểu Thêm</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,7 +124,9 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Hỏa Lò</h3>
+                            <div onClick={handleLg}>
                             <button className={cx('card-button')}onClick={() => handleNavigatetype('Hỏa Lò')}>Tìm Hiểu Thêm</button>
+                            </div>
                         </div>
                     </div>
                 </span>
@@ -115,7 +137,9 @@ function Scenic_spots() {
                         </div>
                         <div className={cx('card-info')}>
                             <h3 className={cx('text-title')}>Văn Miếu Quốc Tử Giám</h3>
+                            <div onClick={handleLg}>
                             <button className={cx('card-button')}onClick={() => handleNavigatetype('Văn Miếu Quốc Tử Giám')}>Tìm Hiểu Thêm</button>
+                            </div>
                         </div>
                     </div>
                 </div>
