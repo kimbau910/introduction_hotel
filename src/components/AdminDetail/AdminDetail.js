@@ -115,7 +115,6 @@ const AdminDetail = () => {
                 image2: res?.data?.image2,
                 image3: res?.data?.image3,
                 imageMap: res?.data?.imageMap,
-
                 overview: res?.data?.overview,
                 convenient: res?.data?.convenient,
                 type: res?.data?.type,

@@ -75,14 +75,14 @@
    
     margin-top: 20px;
 }
-.card {
-    width: 100%;
+// .card {
+//     width: 100%;
    
-}
-.card1 {
-    width: 50%;
-    margin-left: 20px;
-}
+// }
+// .card1 {
+//     width: 50%;
+//     margin-left: 20px;
+// }
 ul {
     padding: 0;
 }
@@ -130,3 +130,26 @@ li {
     margin: 0 10px;
 }
 
+@media only screen and (max-width: 46.1875em) {
+   .main_wapper{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+   }
+    .wapper{
+      
+        width: 40%;
+    }
+    h1{
+          margin-right: 100px;
+    
+    }
+    .thumbnail {
+        padding-left: 2px;
+    }
+    .thumbnail img {
+        
+        width:90px; 
+      }
+   
+}

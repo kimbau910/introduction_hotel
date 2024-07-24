@@ -40,19 +40,19 @@ function Search() {
         dispatch(searchDetailAction(e.target.value));
         if (e.target.value.trim()) {
             setShowResult(true);
-            setIsLoading(true); // Bắt đầu loading khi bắt đầu tìm kiếm
+            setIsLoading(true); 
         } else {
             setShowResult(false);
-            setIsLoading(false); // Ngừng loading khi không có giá trị tìm kiếm
+            setIsLoading(false); 
         }
 
         try {
             const res = await DetailService.getAlldetail(searchDebounce, limit);
-            // Xử lý kết quả từ API ở đây
+           
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
-            setIsLoading(false); // Dừng loading khi kết thúc tìm kiếm (có kết quả hoặc lỗi)
+            setIsLoading(false); 
         }
     };
 

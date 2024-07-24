@@ -103,6 +103,7 @@ function Home() {
         setTypeDetails(res?.data);
         // }
     };
+    
     const { data: details, isPreviousData } = useQuery({
         queryKey: ['details'],
         limit,
@@ -171,7 +172,7 @@ function Home() {
                                     </div>
                                   <div onClick={handleLg}>
                                     <Link to={`/detail/${cardd.ids}`}>
-                                        <a className={cx('action')}>
+                                        <a className={cx('action')} >
                                             Xem chi tiết
                                             <span aria-hidden="true">→</span>
                                         </a>

@@ -33,8 +33,8 @@ import {
 } from 'react-icons/fa';
 const cx = classNames.bind(styles);
 const icons = [
-    FaSwimmingPool,
     FaWifi,
+    FaSwimmingPool,
     FaShuttleVan,
     FaDumbbell,
     FaAdjust,
@@ -50,7 +50,6 @@ function HotelDetail({ idDetail }) {
 
     const navigate = useNavigate();
     const location = useLocation();
-
 
     const dispatch = useDispatch();
     const { isLoading, data: detailDetails } = useQuery({
@@ -69,7 +68,7 @@ function HotelDetail({ idDetail }) {
             content: detailDetails?.overview,
         },
         {
-            h1: 'Các tiện nghi được ưa chuộng nhất',
+            h1: 'Tiện nghi ',
             content: detailDetails?.convenient,
         },
         {
@@ -116,8 +115,6 @@ function HotelDetail({ idDetail }) {
         setWordData(imgs[index]);
     };
 
-  
-
     const handleChangeCount = (type, limited) => {
         if (type === 'increase') {
             if (!limited) {
@@ -134,20 +131,22 @@ function HotelDetail({ idDetail }) {
         setVal(index);
         setWordData(imgs[index]);
     };
- 
-    
+
     return (
         <Loading isLoading={isLoading}>
-            <div>
-                {/* <LikeButtonComponent
-                    dataHref="https://developers.facebook.com/docs/plugins/"
-                    data-width=""
-                    data-layout=""
-                    data-action=""
-                    data-size=""
-                    data-share={true}
-                /> */}
-  <h5 className={cx('rollback')}><span style={{cursor: 'pointer', fontWeight: 'bold'}} onClick={() => {navigate('/')}}>Trang chủ</span> - Chi tiết khách sạn</h5>
+            <div className={cx('main_wapper')}>
+            <div className={cx('wapper')}>
+                <h5 className={cx('rollback')}>
+                    <span
+                        style={{ cursor: 'pointer', fontWeight: 'bold' }}
+                        onClick={() => {
+                            navigate('/');
+                        }}
+                    >
+                        Trang chủ
+                    </span>{' '}
+                    - Chi tiết khách sạn
+                </h5>
                 <h1>{detailDetails?.name}</h1>
 
                 <h5>{detailDetails?.description}</h5>
@@ -231,7 +230,7 @@ function HotelDetail({ idDetail }) {
                         </div>
                     </div>
                 ))}
-            </div>
+            </div></div>
         </Loading>
     );
 }

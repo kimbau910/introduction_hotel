@@ -43,7 +43,8 @@ function TypeDetailPage() {
     };
     return (
         <Loading isLoading={loading}>
-        <div>
+        <div className={cx('wapper')}>
+            <div>
             <h2 className={cx('styleH2')}> Khách sạn gần: {state} </h2>
             <div className={cx('container')}>
                 {details.map((data) => {
@@ -66,6 +67,7 @@ function TypeDetailPage() {
                 onChange={onChange}
                 style={{ textAlign: 'center', marginTop: '10px',marginBottom:'20px' }}
             />
+        </div>
         </div>
         </Loading>
     );
