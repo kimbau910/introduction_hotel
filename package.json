@@ -1,7 +1,7 @@
 {
     "name": "introduction_hotel",
     "version": "0.1.0",
-    "proxy": "http://localhost:3001",
+    "proxy": "https://be-hotel-1.onrender.com",
     "private": true,
     "dependencies": {
         "@ant-design/icons": "^5.3.7",
