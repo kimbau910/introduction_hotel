@@ -1048,9 +1048,9 @@ const AdminDetail = () => {
                 onCancel={handleCancelDelete}
                 onOk={handleDeleteDetail}
             >
-                <Loading isLoading={isLoadingDeleted}>
+               
                     <div>Bạn có chắc xóa sản phẩm này không?</div>
-                </Loading>
+              
             </ModalComponent>
         </div>
     );

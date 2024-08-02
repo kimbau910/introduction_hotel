@@ -20,7 +20,7 @@ function SignUp() {
     const navigate = useNavigate();
     const mutation = useMutationHooks((data) => UserService.signupUser(data));
     const { data, isLoading, isSuccess, isError } = mutation;
-    console.log('1', isLoading);
+
     const handleNavigateLogin = useCallback(() => {
         navigate('/Login');
     });
